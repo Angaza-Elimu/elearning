@@ -2,12 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+.radial {
+  background: linear-gradient(144.4deg, #0fa24a -15.04%, #0c6b94 72.94%);
+}
+
+/*input styles */
+input:focus-within ~ label,
+input:not(:placeholder-shown) ~ label {
+  @apply transform scale-90 -translate-y-6;
+}
+
+input:focus-within ~ label {
+  @apply text-primary-700;
+}
+
+input:not(:focus-within) ~ label {
+  @apply transform duration-300 scale-100 cursor-text font-normal;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Work Sans", sans-serif, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
