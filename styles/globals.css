@@ -20,6 +20,33 @@ input:not(:focus-within) ~ label {
   @apply transform duration-300 scale-100 cursor-text font-normal;
 }
 
+/* image */
+/*.image {
+  @apply mt-3;
+}*/
+
+/*scrollbar*/
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cfd6db;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 html,
 body {
   padding: 0;

@@ -7,9 +7,12 @@ import Dashboard from "./Dashboard";
 import Exit from "./Exit";
 import Forum from "./Forum";
 import Gear from "./Gear";
+import GreenTick from "./GreenTick";
+import HiddenEyes from "./HiddenEyes";
 import Kcpe from "./KCPE";
 import Learn from "./Learn";
 import Minimize from "./Minimize";
+import VisibleEyes from "./VisibleEyes";
 
 export {
   ArrowLeft,
@@ -21,7 +24,10 @@ export {
   Exit,
   Forum,
   Gear,
+  GreenTick,
+  HiddenEyes,
   Kcpe,
   Learn,
   Minimize,
+  VisibleEyes,
 };

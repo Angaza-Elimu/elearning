@@ -25,8 +25,11 @@ export default function LearnPage() {
                   query: { subject: name.toLowerCase() },
                 }}
                 key={id.toString()}
+                passHref
               >
-                <LearnCard title={name} subtitle={percentage} />
+                <a>
+                  <LearnCard title={name} subtitle={percentage} />
+                </a>
               </Link>
             ))}
           </div>

@@ -3,9 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import teamSuccessImage from "../../../../public/images/teamSuccess.svg";
 
-import { Breadcomb, Button, Header, Layout } from "../../../../components";
-import { ChevronLeft, Close } from "../../../../assets";
-import QuizCard from "../../../../components/QuizCard";
+import { Breadcomb, Button, Layout, QuizCard } from "../../../../components";
 
 export default function QuizPage() {
   const { query } = useRouter();
@@ -100,7 +98,12 @@ export default function QuizPage() {
 
         {isQuizStarted && !isQuizFinished ? (
           <QuizCard
-            answers={["Tens", "Hundreds", "Thousands", "Tens of thousands"]}
+            answers={[
+              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/24c1f0e396d07602c8da43ba7bd20f72a50c8bf7.png"></figure>`,
+              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/309cad8778e21ed1f3a54849aba288b117ec9cf6.png"></figure>`,
+              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/2da9de34a5c6a875f1b1cb30f1a747f96edc554a.png"></figure>`,
+              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/85676fc9db73a8b7f0fae98a04b1a17d7dc9eb3f.png"></figure> <p>hello world</p>`,
+            ]}
             currentQuestion={currentQuestion}
             id={currentQuestion}
             lastQuestion={currentQuestion === totalQuestion}
@@ -108,7 +111,13 @@ export default function QuizPage() {
               setCurrentQuestion((prev) => (prev < totalQuestion ? prev + 1 : prev))
             }
             onQuizFinished={() => setIsQuizFinished(true)}
-            question="What is the place value of digit 6 in the number 86457?"
+            // question="What is the place value of digit 6 in the number 86457?"
+            question={`
+            <p>What is the answer to the below?<p/>
+            <figure class="image">
+              <img src="https://staging.angazaelimu.com/userfiles/a9bce49d60f006e5012301dd9f5b34ac12c15052.png" alt='' />
+            </figure>
+            `}
             totalQuestion={totalQuestion}
           />
         ) : (

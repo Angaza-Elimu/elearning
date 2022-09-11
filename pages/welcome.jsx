@@ -1,10 +1,24 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { validToken } from "../api/auth";
+import { getClassesApi } from "../api/classes";
 
 import { Title, GradeCard } from "../components";
 import logo from "../public/logo.svg";
 
-export default function WelcomePage() {
-  return (
+export default function WelcomePage({ classes }) {
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const profile = useSelector((state) => state.profile.profile);
+
+  //route protection
+  useEffect(() => {
+    !validToken() ? router.push("/") : setLoading(false);
+  }, []);
+
+  return loading ? null : (
     <>
       <Title name="Welcome" />
 
@@ -16,13 +30,15 @@ export default function WelcomePage() {
 
           <div className="flex flex-col w-2/3 h-2/3">
             <div className="text-center">
-              <h3 className="font-bold text-3xl">Welcome Alice</h3>
+              <h3 className="font-bold text-3xl">
+                Welcome {profile.firstname[0].toUpperCase() + profile.firstname.substring(1)}
+              </h3>
               <p className="font-semibold text-xl">Choose a grade to start learning with us</p>
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 mt-10 gap-10">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item, i) => (
-                <GradeCard item={item} key={i} />
+              {classes.map(({ class_name, id }) => (
+                <GradeCard item={class_name} key={id} />
               ))}
             </div>
           </div>
@@ -31,3 +47,13 @@ export default function WelcomePage() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req: { cookies } }) => {
+  let { data: classes, status } = await getClassesApi(cookies.token);
+
+  if (status !== 200) classes = [];
+
+  return {
+    props: { classes },
+  };
+};

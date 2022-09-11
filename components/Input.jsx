@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { HiddenEyes, VisibleEyes } from "../assets";
 
 export default function Input({ label = "", name, value, type = "text", onChange, ...others }) {
   const [visible, setVisible] = useState(false);
@@ -34,11 +35,11 @@ export default function Input({ label = "", name, value, type = "text", onChange
       />
       <label
         htmlFor={label.toLowerCase().trim().split(" ").join("")}
-        className="absolute top-2.5 left-3 duration-300 origin-0 bg-shade-light text-lg text-neutral-500 font-medium px-1 select-none"
+        className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] text-lg text-neutral-500 font-medium px-1 select-none"
       >
         {label}
       </label>
-      {/* {type === "password" && (
+      {type === "password" && (
         <div className="absolute right-2 top-4 cursor-pointer">
           {visible ? (
             <HiddenEyes className="stroke-neutral-500" onClick={() => makeInvisible()} />
@@ -46,7 +47,7 @@ export default function Input({ label = "", name, value, type = "text", onChange
             <VisibleEyes className="stroke-neutral-500" onClick={() => makeVisible()} />
           )}
         </div>
-      )} */}
+      )}
     </div>
   );
 }

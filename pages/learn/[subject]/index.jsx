@@ -32,8 +32,11 @@ export default function PickASubjectPage({}) {
                   query: { topic: name.toLowerCase(), subject: query.subject },
                 }}
                 key={id.toString()}
+                passHref
               >
-                <LearnCard title={name} subtitle={percentage} hasNoIcon />
+                <a>
+                  <LearnCard title={name} subtitle={percentage} hasNoIcon />
+                </a>
               </Link>
             ))}
           </div>

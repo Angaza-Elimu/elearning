@@ -20,7 +20,7 @@ export default function QuizCard({
     <>
       <Header text="Shhhh, quiz in progress" />
 
-      <div className="max-w-6xl mr-auto w-full h-full flex-1">
+      <div className="max-w-6xl mr-auto w-full h-full flex-1 select-none">
         <div className="bg-shade-light rounded-lg py-5 px-10 relative w-full h-5/6 flex flex-col">
           <div className="absolute top-5 right-5 h-6 w-6">
             <Close className="stroke-2 stroke-neutral-500 cursor-pointer hover:stroke-primary-500" />
@@ -32,13 +32,15 @@ export default function QuizCard({
 
           {/* Question */}
           <div className="my-5">
-            <p className="font-semibold text-xl">{question}</p>
+            <div className="font-semibold text-xl" dangerouslySetInnerHTML={{ __html: question }}>
+              {/* {question} */}
+            </div>
           </div>
 
           {/* Options */}
           <div className="flex gap-5 flex-col text-xl">
             {answers.map((answer, index) => (
-              <div className="flex space-x-4 items-center">
+              <div className="flex space-x-4 items-center flex-1" key={index}>
                 <input
                   checked={selectedAnswer === answer}
                   className="inline-block text-neutral-500 rounded-full w-5 h-5"
@@ -51,8 +53,15 @@ export default function QuizCard({
                   value={answer}
                 />
                 <span className="inline-block text-neutral-500">
-                  <label htmlFor={`question-${id}_option-${index + 1}`}>
-                    <span className="font-bold">{options[index]}.</span> {answer}
+                  <label
+                    htmlFor={`question-${id}_option-${index + 1}`}
+                    className="flex gap-2 items-center"
+                  >
+                    <span className="font-bold">{options[index]}.</span>{" "}
+                    <span
+                      dangerouslySetInnerHTML={{ __html: answer }}
+                      className="flex-1 flex items-center gap-1"
+                    ></span>
                   </label>
                 </span>
               </div>
