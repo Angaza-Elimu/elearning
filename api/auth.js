@@ -7,6 +7,9 @@ const tokenKey = "token";
 
 const loginApi = async (username, password) => api.post("/auth/login", { username, password });
 
+const logoutApi = async (token) =>
+  api.get("/logout", { headers: { Authorization: `Bearer ${token}` } });
+
 const loginWithToken = (token) => Cookies.set(tokenKey, token);
 
 const logout = () => Cookies.remove(tokenKey);
@@ -31,4 +34,4 @@ const validToken = (token) => {
   }
 };
 
-export { getToken, loginApi, loginWithToken, logout, validToken };
+export { getToken, loginApi, logoutApi, loginWithToken, logout, validToken };

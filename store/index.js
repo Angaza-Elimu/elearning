@@ -3,10 +3,13 @@ import { gradeReducer, settingsReducer, profileReducer } from "./features";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
+import { CookieStorage } from "redux-persist-cookie-storage";
+import Cookies from "js-cookie";
 
 const persistConfig = {
   key: "root",
-  storage,
+  // storage,
+  storage: new CookieStorage(Cookies),
 };
 
 const reducers = combineReducers({

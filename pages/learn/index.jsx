@@ -1,34 +1,49 @@
 import Link from "next/link";
+import _ from "lodash";
+import Router, { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+
+import { getSubjectsApi } from "../../api/subjects";
 import { Layout, LearnCard, Header } from "../../components";
+import { validToken } from "../../api/auth";
+import Cookies from "js-cookie";
 
-export default function LearnPage() {
-  const subjects = [
-    { id: 1, name: "Math", percentage: 0 },
-    { id: 2, name: "English", percentage: 0 },
-    { id: 3, name: "Swahili", percentage: 0 },
-    { id: 4, name: "Science", percentage: 0 },
-    { id: 5, name: "Social Studies", percentage: 0 },
-    { id: 6, name: "CRE", percentage: 0 },
-  ];
+export default function LearnPage({ subjects }) {
+  const [loading, setLoading] = useState(true);
 
-  return (
+  const router = useRouter();
+  const learning_system = useSelector((state) => state.profile.profile?.learning_system);
+
+  //todo: add the percentage complete to the subjects
+  let filtered_subjects = subjects.filter((s) => s.learning_level === learning_system);
+  filtered_subjects = _.orderBy(filtered_subjects, ["subject_name"], "asc");
+
+  //route protection
+  useEffect(() => {
+    !validToken() ? router.push("/") : setLoading(false);
+  }, []);
+
+  return loading ? null : (
     <Layout title="Pick a subject">
       <div className="my-auto lg:mt-14">
         <Header text="Now, pick a subject" />
 
-        <div className="max-w-7xl w-full mr-auto mt-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-16">
-            {subjects.map(({ name, id, percentage }) => (
+        <div className="max-w-7xl w-full mr-auto my-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-16">
+            {filtered_subjects.map(({ subject_name, id, percentage = 0 }) => (
               <Link
                 href={{
                   pathname: "/learn/[subject]",
-                  query: { subject: name.toLowerCase() },
+                  query: {
+                    subject: subject_name.replace(/[^a-zA-Z0-9?.:]/g, "_"),
+                  },
                 }}
                 key={id.toString()}
                 passHref
               >
-                <a>
-                  <LearnCard title={name} subtitle={percentage} />
+                <a onClick={() => Cookies.set("subject_id", id)}>
+                  <LearnCard title={subject_name} subtitle={percentage} />
                 </a>
               </Link>
             ))}
@@ -39,8 +54,12 @@ export default function LearnPage() {
   );
 }
 
-export const getServerSideProps = async ({ req, params }) => {
+export const getServerSideProps = async ({ req: { cookies }, params }) => {
+  let { data: subjects, status } = await getSubjectsApi(cookies.token);
+
+  if (status !== 200) subjects = [];
+
   return {
-    props: {},
+    props: { subjects },
   };
 };

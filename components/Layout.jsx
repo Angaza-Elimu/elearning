@@ -16,8 +16,8 @@ export default function Layout({ children, title = "" }) {
         <div className={`h-screen flex w-full`}>
           {/* sidebar */}
           <div
-            className={`bg-light h-full transition-all ease-in-out duration-300 w-[280px] ${
-              !showSidebar ? "-ml-[280px]" : "ml-0"
+            className={`bg-light h-full transition-all ease-in-out duration-300 w-5/12 mx-auto lg:w-[280px] absolute lg:relative ${
+              !showSidebar ? "lg:-ml-[280px]" : "lg:ml-0"
             }`}
           >
             <Sidebar onHide={() => dispatch(setShowSidebar(false))} />

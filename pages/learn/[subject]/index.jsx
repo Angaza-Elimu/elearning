@@ -1,19 +1,11 @@
+import _ from "lodash";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import { getTopics } from "../../../api/topics";
 
 import { Breadcomb, Header, Layout, LearnCard } from "../../../components";
 
-export default function PickASubjectPage({}) {
-  const topics = [
-    { id: 1, name: "Numbers", percentage: 0 },
-    { id: 2, name: "Algebra", percentage: 0 },
-    { id: 3, name: "Fractions", percentage: 0 },
-    { id: 4, name: "Money", percentage: 0 },
-    { id: 5, name: "Decimals", percentage: 0 },
-    { id: 6, name: "Geometry", percentage: 0 },
-    { id: 7, name: "Volume & mass", percentage: 0 },
-    { id: 8, name: "Time, speed", percentage: 0 },
-  ];
+export default function PickASubjectPage({ topics }) {
   const { query } = useRouter();
 
   return (
@@ -21,21 +13,27 @@ export default function PickASubjectPage({}) {
       <div>
         <Breadcomb />
 
-        <Header text={`Nice! Now choose a ${query.subject} topic you love...`} className="mt-3" />
+        <Header
+          text={`Nice! Now choose a topic in ${query.subject?.replace(/_/g, " ")} you love...`}
+          className="mt-3"
+        />
 
         <div className="max-w-7xl w-full mr-auto mt-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10">
-            {topics.map(({ id, name, percentage }) => (
+            {_.orderBy(topics, "topic_name").map(({ id, topic_name, percentage = 0 }) => (
               <Link
                 href={{
                   pathname: "/learn/[subject]/[topic]",
-                  query: { topic: name.toLowerCase(), subject: query.subject },
+                  query: {
+                    topic: topic_name.replace(/[^a-zA-Z0-9?.:]/g, "_"),
+                    subject: query.subject,
+                  },
                 }}
                 key={id.toString()}
                 passHref
               >
                 <a>
-                  <LearnCard title={name} subtitle={percentage} hasNoIcon />
+                  <LearnCard title={topic_name} subtitle={percentage} hasNoIcon />
                 </a>
               </Link>
             ))}
@@ -45,3 +43,14 @@ export default function PickASubjectPage({}) {
     </Layout>
   );
 }
+
+export const getServerSideProps = async ({ req: { cookies }, params }) => {
+  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
+
+  const { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);
+  if (status !== 200) topics = [];
+
+  return {
+    props: { topics },
+  };
+};

@@ -24,7 +24,7 @@ export default function Breadcomb() {
             <a>
               <div className="flex ml-1 first:ml-0 items-center cursor-pointer hover:text-primary-600">
                 <p className={`${paths.length - 1 === i ? "text-primary-600" : ""}`}>
-                  {p[0].toUpperCase() + p.substring(1)}{" "}
+                  {p[0].toUpperCase() + p.substring(1).replace(/%3A/g, ": ").replace(/_/g, " ")}{" "}
                 </p>
                 <div>
                   <ChevronLeft className="stroke-current rotate-180 stroke-[1.5] h-6" />

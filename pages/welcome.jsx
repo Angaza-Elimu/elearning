@@ -23,20 +23,22 @@ export default function WelcomePage({ classes }) {
       <Title name="Welcome" />
 
       <div className="bg-neutral-900">
-        <div className="flex h-screen w-screen relative p-5 max-w-7xl mx-auto items-center justify-center ">
-          <div className="h-14 w-14 fixed left-10 top-10">
+        <div className="flex flex-1 min-h-screen w-screen relative lg:p-5 lg:max-w-7xl mx-auto items-center justify-center ">
+          <div className="h-14 w-14 absolute left-10 top-10">
             <Image src={logo} />
           </div>
 
-          <div className="flex flex-col w-2/3 h-2/3">
-            <div className="text-center">
-              <h3 className="font-bold text-3xl">
+          <div className="flex flex-col px-5 py-5 pb-8 lg:w-2/3 h-2/3">
+            <div className="text-center mt-24 lg:mt-0">
+              <h3 className="font-semibold lg:font-bold text-3xl">
                 Welcome {profile.firstname[0].toUpperCase() + profile.firstname.substring(1)}
               </h3>
-              <p className="font-semibold text-xl">Choose a grade to start learning with us</p>
+              <p className="text-lg w-full lg:font-semibold lg:text-xl">
+                Choose a grade to start learning with us
+              </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 mt-10 gap-10">
+            <div className="grid grid-cols-2 lg:grid-cols-4 mt-10 gap-5 lg:gap-10">
               {classes.map(({ class_name, id }) => (
                 <GradeCard item={class_name} key={id} />
               ))}

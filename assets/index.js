@@ -1,3 +1,5 @@
+import AnswerRightTick from "./AnswerRightTick";
+import AnswerWrongTick from "./AnswerWrongTick";
 import ArrowLeft from "./ArrowLeft";
 import AskATeacher from "./AskATeacher";
 import BubbleVector from "./BubbleVector";
@@ -9,12 +11,15 @@ import Forum from "./Forum";
 import Gear from "./Gear";
 import GreenTick from "./GreenTick";
 import HiddenEyes from "./HiddenEyes";
+import Info from "./Info";
 import Kcpe from "./KCPE";
 import Learn from "./Learn";
 import Minimize from "./Minimize";
 import VisibleEyes from "./VisibleEyes";
 
 export {
+  AnswerRightTick,
+  AnswerWrongTick,
   ArrowLeft,
   AskATeacher,
   BubbleVector,
@@ -26,6 +31,7 @@ export {
   Gear,
   GreenTick,
   HiddenEyes,
+  Info,
   Kcpe,
   Learn,
   Minimize,

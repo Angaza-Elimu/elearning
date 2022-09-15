@@ -4,6 +4,8 @@ export const gradeSlice = createSlice({
   name: "grade",
   initialState: {
     grade: null,
+    subject: null,
+    topic: null,
   },
   reducers: {
     setGrade: (state, action) => {
