@@ -102,9 +102,9 @@ export default function QuizPage() {
               `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/24c1f0e396d07602c8da43ba7bd20f72a50c8bf7.png"></figure>`,
               `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/309cad8778e21ed1f3a54849aba288b117ec9cf6.png"></figure>`,
               `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/2da9de34a5c6a875f1b1cb30f1a747f96edc554a.png"></figure>`,
-              `<p>hello world</p>`,
+              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/85676fc9db73a8b7f0fae98a04b1a17d7dc9eb3f.png"></figure>`,
             ]}
-            correctAnswer={`<p>hello world</p>`}
+            correctAnswer={`<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/85676fc9db73a8b7f0fae98a04b1a17d7dc9eb3f.png"></figure>`}
             currentQuestion={currentQuestion}
             id={currentQuestion}
             lastQuestion={currentQuestion === totalQuestion}
