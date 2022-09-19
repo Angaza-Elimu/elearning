@@ -62,7 +62,7 @@ export default function LoginPage() {
       <Title name="Log In" />
 
       <div className="grid grid-cols-12 h-screen bg-[#FBFBFB]">
-        <div className="col-span-5 flex items-center justify-center radial text-shade-light relative">
+        <div className="md:col-span-5 md:flex items-center justify-center radial text-shade-light relative hidden">
           <div className="h-12 w-12 absolute top-48 left-20">
             <Image src={doubleRectangle} layout="fill" />
           </div>
@@ -77,7 +77,7 @@ export default function LoginPage() {
         </div>
 
         {/* login session */}
-        <div className="col-span-7 p-5 flex items-center relative">
+        <div className="col-span-full md:col-span-7 p-5 flex items-center relative">
           <div className="h-12 w-12 absolute top-20 left-1/3">
             <Image src={rectangle} layout="fill" />
           </div>
@@ -85,7 +85,7 @@ export default function LoginPage() {
             <Image src={circles} layout="fill" />
           </div>
 
-          <div className="w-2/5 ml-36">
+          <div className="mx-auto w-full md:max-w-md">
             <p className="text-center mb-5 text-neutral-500">
               Don't have an account?{" "}
               <span className="text-primary-700 font-semibold cursor-pointer hover:underline">
