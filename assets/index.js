@@ -12,7 +12,7 @@ import Gear from "./Gear";
 import GreenTick from "./GreenTick";
 import HiddenEyes from "./HiddenEyes";
 import Info from "./Info";
-import Kcpe from "./KCPE";
+import Kcpe from "./Kcpe";
 import Learn from "./Learn";
 import Minimize from "./Minimize";
 import VisibleEyes from "./VisibleEyes";
