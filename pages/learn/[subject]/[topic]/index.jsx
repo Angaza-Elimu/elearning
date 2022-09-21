@@ -69,7 +69,7 @@ export default function QuizPage() {
 
             <div className="flex items-center gap-5 flex-wrap justify-center mt-5">
               {recommendedTopics.map((rt) => (
-                <Link passHref href={`/learn/notes/${rt.id.toString()}`}>
+                <Link passHref href={`/learn/notes/${rt.id.toString()}`} key={rt.id.toString()}>
                   <Button
                     key={rt.id.toString()}
                     name={rt.name}
