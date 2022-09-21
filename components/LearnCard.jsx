@@ -1,6 +1,12 @@
 import { ArrowLeft, BubbleVector } from "../assets";
 
-export default function LearnCard({ onClick, title, subtitle, hasNoIcon = false }) {
+export default function LearnCard({
+  onClick,
+  title,
+  subtitle,
+  hasNoIcon = false,
+  footerText = "learning",
+}) {
   return (
     <div
       className={`px-8 py-10 pb-5 bg-shade-light rounded-xl hover:shadow-lg hover:scale-105 transition-all ease-in-out duration-75 h-fit cursor-pointer relative select-none ${
@@ -24,7 +30,7 @@ export default function LearnCard({ onClick, title, subtitle, hasNoIcon = false 
       </div>
 
       <div className="mt-3 text-primary-700 font-semibold text-lg font-openSans flex gap-2.5 items-center pl-3">
-        <p>Start learning</p>
+        <p>Start {footerText}</p>
         <div>
           <ArrowLeft className="stroke-2 stroke-current w-7" />
         </div>

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import teamSuccessImage from "../../../../public/images/teamSuccess.svg";
 
 import { Breadcomb, Button, Layout, QuizCard } from "../../../../components";
+import Link from "next/link";
 
 export default function QuizPage() {
   const { query } = useRouter();
@@ -11,8 +12,14 @@ export default function QuizPage() {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [id, setId] = useState(10);
-  const totalQuestion = 15;
+  const totalQuestion = 2;
   // ${query.topic[0].toUpperCase() + query.topic.substring(1)}
+
+  const recommendedTopics = [
+    { id: 1, name: "Rounding off", done: false },
+    { id: 2, name: "Square & square root", done: false },
+    { id: 3, name: "Place value & total value", done: false },
+  ];
 
   const Welcome = () => {
     return (
@@ -61,29 +68,28 @@ export default function QuizPage() {
             </div>
 
             <div className="flex items-center gap-5 flex-wrap justify-center mt-5">
-              <Button
-                name="Rounding off"
-                type="SECONDARY"
-                className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700"
-              />
-              <Button
-                name="Square & square root"
-                type="SECONDARY"
-                className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700"
-              />
-              <Button
-                name="Place value & total value"
-                type="SECONDARY"
-                className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700"
-              />
+              {recommendedTopics.map((rt) => (
+                <Link passHref href={`/learn/notes/${rt.id.toString()}`}>
+                  <Button
+                    key={rt.id.toString()}
+                    name={rt.name}
+                    type="SECONDARY"
+                    className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700"
+                  />
+                </Link>
+              ))}
             </div>
 
             <div className="text-center text-lg">
               <p>
                 Not interested?{" "}
-                <span className="text-primary-700 cursor-pointer hover:underline font-semibold">
-                  Choose a different subtopic
-                </span>
+                <Link passHref href="/learn/notes">
+                  <a>
+                    <span className="text-primary-700 cursor-pointer hover:underline font-semibold">
+                      Choose a different subtopic
+                    </span>
+                  </a>
+                </Link>
               </p>
             </div>
           </div>

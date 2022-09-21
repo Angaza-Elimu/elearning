@@ -11,13 +11,13 @@ export default (learningLevel) => [
     learningLevel?.toLowerCase() === "primary"
       ? {
           name: "KCPE revision",
-          url: "/wip/kcpe",
+          url: "/revision",
           inner: false,
           component: Kcpe,
         }
       : {
           name: "KCSE revision",
-          url: "/wip/kspe",
+          url: "/revision",
           inner: false,
           component: Kcpe,
         })(),
