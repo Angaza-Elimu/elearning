@@ -44,7 +44,7 @@ export default function PickASubjectPage({ topics }) {
   );
 }
 
-export const getServerSideProps = async ({ req: { cookies }, params }) => {
+export const getServerSideProps = async ({ req: { cookies } }) => {
   const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
 
   const { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);

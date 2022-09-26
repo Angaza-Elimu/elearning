@@ -30,10 +30,11 @@ export default function RevisionTopicPage({ topics }) {
             {_.orderBy(topics, "topic_name").map(({ id, topic_name, percentage = 0 }) => (
               <Link
                 href={{
-                  pathname: "/learn/[subject]/[topic]",
+                  pathname: "/revision/quiz",
                   query: {
-                    topic: topic_name.replace(/[^a-zA-Z0-9?.:]/g, "_"),
-                    subject: query.subject,
+                    // topic: topic_name.replace(/[^a-zA-Z0-9?.:]/g, "_"),
+                    subject_id: query.subject_id,
+                    topic_id: id,
                   },
                 }}
                 key={id.toString()}
@@ -45,6 +46,7 @@ export default function RevisionTopicPage({ topics }) {
                     subtitle={percentage}
                     hasNoIcon
                     footerText="revising"
+                    isPercentage={false}
                   />
                 </a>
               </Link>
@@ -56,7 +58,7 @@ export default function RevisionTopicPage({ topics }) {
   );
 }
 
-export const getServerSideProps = async ({ req: { cookies }, params }) => {
+export const getServerSideProps = async ({ req: { cookies } }) => {
   const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
 
   const { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);

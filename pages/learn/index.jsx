@@ -54,7 +54,7 @@ export default function LearnPage({ subjects }) {
   );
 }
 
-export const getServerSideProps = async ({ req: { cookies }, params }) => {
+export const getServerSideProps = async ({ req: { cookies } }) => {
   let { data: subjects, status } = await getSubjectsApi(cookies.token);
 
   if (status !== 200) subjects = [];

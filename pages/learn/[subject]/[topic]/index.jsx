@@ -135,8 +135,7 @@ export default function QuizPage() {
   );
 }
 
-export const getServerSideProps = async ({ req, params }) => {
-  console.log(params);
+export const getServerSideProps = async ({ req }) => {
   return {
     props: {},
   };

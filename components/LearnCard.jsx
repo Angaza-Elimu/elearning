@@ -6,6 +6,7 @@ export default function LearnCard({
   subtitle,
   hasNoIcon = false,
   footerText = "learning",
+  isPercentage = true,
 }) {
   return (
     <div
@@ -26,7 +27,7 @@ export default function LearnCard({
       </div>
       <div className="flex gap-5 flex-col border-b-[0.1px] border-neutral-700 pb-4 z-20">
         <p className="font-semibold text-xl w-3/4">{title}</p>
-        <p className="text-neutral-500">{subtitle}%</p>
+        <p className="text-neutral-500">{isPercentage ? `${subtitle}%` : "Ques. 0/100"}</p>
       </div>
 
       <div className="mt-3 text-primary-700 font-semibold text-lg font-openSans flex gap-2.5 items-center pl-3">
