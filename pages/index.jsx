@@ -108,9 +108,9 @@ export default function LoginPage() {
                 value={password}
               />
 
-              <p className="text-sm text-primary-700 -mt-1 cursor-pointer hover:underline">
+              {/* <p className="text-sm text-primary-700 -mt-1 cursor-pointer hover:underline">
                 Forgot Password?
-              </p>
+              </p> */}
 
               <Button
                 name="Log In"

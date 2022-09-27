@@ -13,7 +13,7 @@ const getRevisionQuestions = (token, topic_id, subject_id) =>
 
 const answerRevisionQuestion = (token, data) =>
   api.post(
-    "/getRevisionQuestions",
+    "/answerRevisionQuestion",
     { ...data, type: "question_answers" },
     {
       headers: {
