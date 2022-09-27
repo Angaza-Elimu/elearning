@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { validToken } from "../../api/auth";
-import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
+// import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
+import { getRevisionQuestions } from "../../api/revision";
 import { Button, Header, Layout, QuizCard } from "../../components";
 
 export default function QuizPage({ questions }) {
-  const [isQuizStarted, setIsQuizStarted] = useState(false);
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const router = useRouter();
@@ -18,6 +18,37 @@ export default function QuizPage({ questions }) {
 
   const [correctlyAnswered, setCorrectlyAnswered] = useState(0);
   const [score, setScore] = useState(0);
+  // const [providedAnswer, setProvidedAnswer] = useState("");
+  const [selectedAnswer, setSelectedAnswer] = useState("");
+
+  const answers = [
+    questions[currentQuestionIndex]?.option_a,
+    questions[currentQuestionIndex]?.option_b,
+    questions[currentQuestionIndex]?.option_c,
+    questions[currentQuestionIndex]?.option_d,
+  ];
+
+  const answerHints = [
+    questions[currentQuestionIndex]?.option_a_explanation,
+    questions[currentQuestionIndex]?.option_b_explanation,
+    questions[currentQuestionIndex]?.option_c_explanation,
+    questions[currentQuestionIndex]?.option_d_explanation,
+  ];
+
+  const handleNextQuestion = () => {
+    setCurrentQuestionIndex((prev) => (prev < totalQuestion ? prev + 1 : prev));
+
+    if (answers.indexOf(selectedAnswer) + 1 == questions[currentQuestionIndex]?.answer) {
+      setCorrectlyAnswered((prev) => prev + 1);
+
+      // console.log("next question", selectedAnswer, questions[currentQuestionIndex]?.);
+    }
+  };
+
+  const handleQuizFinished = () => {
+    setIsQuizFinished(true);
+    // console.log("quiz finished");
+  };
 
   //route protection
   useEffect(() => {
@@ -28,18 +59,32 @@ export default function QuizPage({ questions }) {
     <Layout title={`Revision Quiz`}>
       <>
         {!isQuizFinished ? (
+          // <QuizCard
+          //   openEndedAnswers
+          //   providedAnswer={providedAnswer}
+          //   setProvidedAnswer={setProvidedAnswer}
+          //   currentQuestion={currentQuestionIndex + 1}
+          //   id={currentQuestionIndex}
+          //   lastQuestion={currentQuestionIndex + 1 === totalQuestion}
+          //   onNextQuestion={() => handleNextQuestion()}
+          //   onQuizFinished={() => handleQuizFinished()}
+          //   question={questions[currentQuestionIndex]?.question}
+          //   totalQuestion={totalQuestion}
+          //   correctAnswer={questions[currentQuestionIndex]?.answer}
+          // />
           <QuizCard
-            openEndedAnswers
+            answers={answers}
+            selectedAnswer={selectedAnswer}
+            setSelectedAnswer={setSelectedAnswer}
             currentQuestion={currentQuestionIndex + 1}
             id={currentQuestionIndex}
             lastQuestion={currentQuestionIndex + 1 === totalQuestion}
-            onNextQuestion={() =>
-              setCurrentQuestionIndex((prev) => (prev < totalQuestion ? prev + 1 : prev))
-            }
-            onQuizFinished={() => setIsQuizFinished(true)}
+            onNextQuestion={() => handleNextQuestion()}
+            onQuizFinished={() => handleQuizFinished()}
             question={questions[currentQuestionIndex]?.question}
             totalQuestion={totalQuestion}
-            correctAnswer={questions[currentQuestionIndex]?.answer}
+            correctAnswer={answers[questions[currentQuestionIndex]?.answer - 1]}
+            hints={answerHints}
           />
         ) : (
           <>
@@ -50,15 +95,19 @@ export default function QuizPage({ questions }) {
 
               <div className="flex flex-wrap flex-[2] items-center gap-8 w-2/3 justify-evenly">
                 <div className="flex flex-col items-center gap-4 ">
-                  <p className="text-6xl font-black text-alerts-info">14</p>
+                  <p className="text-6xl font-black text-alerts-info">{correctlyAnswered}</p>
                   <p className="font-normal">Correctly answered</p>
                 </div>
                 <div className="flex flex-col items-center gap-4 ">
-                  <p className="text-6xl font-black text-alerts-warning">6</p>
+                  <p className="text-6xl font-black text-alerts-warning">
+                    {totalQuestion - correctlyAnswered}
+                  </p>
                   <p className="font-normal">Wrongly answered</p>
                 </div>
                 <div className="flex flex-col items-center gap-4 ">
-                  <p className="text-6xl font-black text-alerts-success">70%</p>
+                  <p className="text-6xl font-black text-alerts-success">
+                    {Number(correctlyAnswered / totalQuestion).toPrecision(3) * 100}%
+                  </p>
                   <p className="font-normal">Overall score</p>
                 </div>
               </div>
@@ -93,7 +142,8 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
     };
   }
 
-  let { data: questions } = await getOpenEndedRevisionQuestions(cookies.token, topic_id);
+  // let { data: questions } = await getOpenEndedRevisionQuestions(cookies.token, topic_id);
+  let { data: questions } = await getRevisionQuestions(cookies.token, topic_id, subject_id);
 
   if (questions.length === 0) {
     return {
@@ -104,7 +154,7 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
     };
   }
 
-  questions = _.shuffle(questions).slice(0, 3); //selects 50 random questions
+  questions = _.shuffle(questions).slice(0, 50); //selects 50 random questions
 
   return {
     props: { questions },

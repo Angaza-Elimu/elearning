@@ -13,10 +13,15 @@ export default function QuizCard({
   totalQuestion,
   correctAnswer,
   openEndedAnswers = false,
+  providedAnswer,
+  setProvidedAnswer,
+  hints,
+  selectedAnswer,
+  setSelectedAnswer,
 }) {
   const options = ["A", "B", "C", "D", "E", "F", "G", "H"]; //answer options
-  const [selectedAnswer, setSelectedAnswer] = useState("");
-  const [providedAnswer, setProvidedAnswer] = useState("");
+  // const [selectedAnswer, setSelectedAnswer] = useState("");
+  // const [providedAnswer, setProvidedAnswer] = useState("");
   const [showHint, setShowHint] = useState(null);
 
   return (
@@ -75,10 +80,7 @@ export default function QuizCard({
                   <div className="flex justify-between items-center flex-1">
                     <div className="flex gap-1 gap-x-3 items-center">
                       <span className="text-base font-normal">{options[index]}. </span>
-                      <div
-                        dangerouslySetInnerHTML={{ __html: correctAnswer }}
-                        className="prose"
-                      ></div>
+                      <div dangerouslySetInnerHTML={{ __html: answer }} className="prose"></div>
                     </div>
                     {showHint && correctAnswer === answer && (
                       <div className="relative h-5 w-5">
@@ -119,10 +121,12 @@ export default function QuizCard({
                 <Info />
               </div>
               <div>
-                {!openEndedAnswers && <p>Correct answer is D.</p>}
+                {!openEndedAnswers && (
+                  <p>Correct answer is {options[answers.indexOf(correctAnswer)]}.</p>
+                )}
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: correctAnswer,
+                    __html: hints[answers.indexOf(correctAnswer)],
                   }}
                 />
               </div>
@@ -153,8 +157,8 @@ export default function QuizCard({
                 onClick={
                   !lastQuestion
                     ? () => {
-                        setSelectedAnswer("");
-                        setProvidedAnswer("");
+                        setSelectedAnswer && setSelectedAnswer("");
+                        setProvidedAnswer && setProvidedAnswer("");
                         onNextQuestion();
                         setShowHint(null);
                       }

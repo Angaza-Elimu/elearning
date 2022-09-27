@@ -14,7 +14,11 @@ export default function RevisionPage({ subjects }) {
 
   const learning_system = useSelector((state) => state.profile.profile?.learning_system);
 
-  let filtered_subjects = subjects.filter((s) => s.learning_level === learning_system);
+  let filtered_subjects =
+    learning_system === "secondary"
+      ? subjects.filter((s) => s.learning_level === learning_system || s.learning_level === null)
+      : subjects.filter((s) => s.learning_level === learning_system);
+
   filtered_subjects = _.orderBy(filtered_subjects, ["subject_name"], "asc");
 
   //route protection
