@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { logout } from "./profileSlice";
 
 export const gradeSlice = createSlice({
   name: "grade",
@@ -11,6 +12,11 @@ export const gradeSlice = createSlice({
     setGrade: (state, action) => {
       state.grade = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(logout, (state) => {
+      state.grade = null;
+    });
   },
 });
 

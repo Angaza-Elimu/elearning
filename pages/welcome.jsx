@@ -11,7 +11,7 @@ import logo from "../public/logo.svg";
 export default function WelcomePage({ classes }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const profile = useSelector((state) => state.profile.profile);
+  const { profile } = useSelector((state) => state.profile);
 
   //route protection
   useEffect(() => {
@@ -54,6 +54,10 @@ export const getServerSideProps = async ({ req: { cookies } }) => {
   let { data: classes, status } = await getClassesApi(cookies.token);
 
   if (status !== 200) classes = [];
+
+  //filter classes by the learning system from the cookies.
+  const { learning_system } = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile;
+  classes = classes.filter((classes) => classes.learning_system === learning_system);
 
   return {
     props: { classes },

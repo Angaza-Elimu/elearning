@@ -23,6 +23,6 @@ export const gradeSlice = createSlice({
   },
 });
 
-export const { setGrade, setToken, removeToken, setProfile, logout } = gradeSlice.actions;
+export const { setToken, removeToken, setProfile, logout } = gradeSlice.actions;
 
 export default gradeSlice.reducer;

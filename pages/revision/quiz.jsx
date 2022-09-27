@@ -2,15 +2,17 @@ import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { validToken } from "../../api/auth";
+import { v4 as uuidv4 } from "uuid";
+
+import { getToken, validToken } from "../../api/auth";
 // import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
-import { getRevisionQuestions } from "../../api/revision";
+import { answerRevisionQuestion, getRevisionQuestions } from "../../api/revision";
 import { Button, Header, Layout, QuizCard } from "../../components";
 
 export default function QuizPage({ questions }) {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const router = useRouter();
+  const { query, ...router } = useRouter();
 
   const totalQuestion = questions.length;
   const [loading, setLoading] = useState(true);
@@ -20,6 +22,7 @@ export default function QuizPage({ questions }) {
   const [score, setScore] = useState(0);
   // const [providedAnswer, setProvidedAnswer] = useState("");
   const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [uniqueQuizId, setUniquedQuizId] = useState("");
 
   const answers = [
     questions[currentQuestionIndex]?.option_a,
@@ -35,14 +38,29 @@ export default function QuizPage({ questions }) {
     questions[currentQuestionIndex]?.option_d_explanation,
   ];
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
+    let answered = {
+      student_id: "31303",
+      topic_id: query.topic_id,
+      subject_id: query.subject_id,
+      answer: questions[currentQuestionIndex]?.answer,
+      marked: 0,
+      question_id: questions[currentQuestionIndex].id,
+      quiz_id: uniqueQuizId,
+    };
+
     setCurrentQuestionIndex((prev) => (prev < totalQuestion ? prev + 1 : prev));
 
     if (answers.indexOf(selectedAnswer) + 1 == questions[currentQuestionIndex]?.answer) {
       setCorrectlyAnswered((prev) => prev + 1);
+      answered = { ...answered, marked: 1 };
 
-      // console.log("next question", selectedAnswer, questions[currentQuestionIndex]?.);
+      // console.log("next question", selectedAnswer, questions[currentQuestionIndex]?.answer);
+      // console.log("answered", answered);
     }
+
+    //call the answer api here to send the answer to the server
+    const { data } = await answerRevisionQuestion(getToken(), answered);
   };
 
   const handleQuizFinished = () => {
@@ -54,6 +72,12 @@ export default function QuizPage({ questions }) {
   useEffect(() => {
     !validToken() ? router.push("/") : setLoading(false);
   }, []);
+
+  useEffect(() => {
+    setUniquedQuizId(uuidv4());
+  }, []);
+
+  console.log(uniqueQuizId);
 
   return loading ? null : (
     <Layout title={`Revision Quiz`}>
@@ -106,7 +130,7 @@ export default function QuizPage({ questions }) {
                 </div>
                 <div className="flex flex-col items-center gap-4 ">
                   <p className="text-6xl font-black text-alerts-success">
-                    {Number(correctlyAnswered / totalQuestion).toPrecision(3) * 100}%
+                    {Math.round((correctlyAnswered / totalQuestion) * 100 * 10) / 10}%
                   </p>
                   <p className="font-normal">Overall score</p>
                 </div>

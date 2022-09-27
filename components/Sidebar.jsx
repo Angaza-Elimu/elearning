@@ -19,7 +19,7 @@ export default function Sidebar({ onHide }) {
   const [showGrades, setShowGrades] = useState(false);
   const pathname = useRouter().pathname;
   const selectedGrade = useSelector((state) => state.grade.grade);
-  const profile = useSelector((state) => state.profile.profile);
+  const { profile } = useSelector((state) => state.profile);
   const [grades, setGrades] = useState([]);
   const token = getToken();
 
@@ -44,11 +44,12 @@ export default function Sidebar({ onHide }) {
       );
   }, []);
 
-  //get all grades for select grade sidebar
+  //get all classes based on the user's learning system
   useEffect(() => {
     (async function () {
-      const { data: grades } = await getClassesApi(token);
-      setGrades(grades);
+      let { data: classes } = await getClassesApi(token);
+      classes = classes.filter((grade) => grade.learning_system === profile?.learning_system);
+      setGrades(classes);
     })();
   }, []);
 
