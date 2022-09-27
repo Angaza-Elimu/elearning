@@ -97,7 +97,7 @@ export default function Sidebar({ onHide }) {
         <div className="w-4/6 mx-auto mb-5 relative">
           <Button
             className="w-full p-2"
-            name={selectedGrade}
+            name={selectedGrade.class_name}
             onClick={showGrades ? () => setShowGrades(false) : () => setShowGrades(true)}
             Component={() => (
               <ChevronLeft
@@ -113,11 +113,12 @@ export default function Sidebar({ onHide }) {
                 {grades.map(({ class_name, id }) => (
                   <div
                     className={`p-2 px-8 cursor-pointer hover:bg-primary-700 hover:text-shade-light ${
-                      selectedGrade === class_name && "bg-primary-900 text-primary-500 shadow"
+                      selectedGrade.id === id && "bg-primary-900 text-primary-500 shadow"
                     }`}
                     onClick={() => {
                       setShowGrades(false);
-                      dispatch(setGrade(class_name));
+                      dispatch(setGrade({ class_name, id }));
+                      router.reload();
                     }}
                     key={id}
                   >
@@ -156,9 +157,10 @@ export default function Sidebar({ onHide }) {
         </div>
       </nav>
 
-      <div className="absolute top-5 right-0 z-50 w-full bg-alerts-success lg:hidden">
+      {/* mobile navbar */}
+      {/* <div className="absolute top-5 right-0 z-50 w-full bg-alerts-success lg:hidden">
         hello world
-      </div>
+      </div> */}
     </>
   );
 }

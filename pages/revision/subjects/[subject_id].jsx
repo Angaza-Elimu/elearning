@@ -59,9 +59,10 @@ export default function RevisionTopicPage({ topics }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
-  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
+  // const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class; //change this to class selected
+  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade).grade.id;
 
-  const { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);
+  let { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);
   if (status !== 200) topics = [];
 
   return {
