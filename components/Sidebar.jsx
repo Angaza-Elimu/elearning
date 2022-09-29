@@ -97,7 +97,7 @@ export default function Sidebar({ onHide }) {
         <div className="w-4/6 mx-auto mb-5 relative">
           <Button
             className="w-full p-2"
-            name={selectedGrade.class_name}
+            name={selectedGrade?.class_name}
             onClick={showGrades ? () => setShowGrades(false) : () => setShowGrades(true)}
             Component={() => (
               <ChevronLeft

@@ -39,8 +39,8 @@ export default function WelcomePage({ classes }) {
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 mt-10 gap-5 lg:gap-10">
-              {classes.map(({ class_name, id }) => (
-                <GradeCard item={class_name} key={id} />
+              {classes.map((c) => (
+                <GradeCard item={c} key={c.id} />
               ))}
             </div>
           </div>

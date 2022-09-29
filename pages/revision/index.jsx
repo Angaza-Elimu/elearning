@@ -31,7 +31,7 @@ export default function RevisionPage({ subjects }) {
       <div className="my-auto lg:mt-14">
         <Header text="Pick a subject to revise" />
 
-        <div className="max-w-7xl w-full mr-auto my-12">
+        <div className="max-w-7xl w-full mr-auto md:my-12 my-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-16">
             {filtered_subjects.map(({ subject_name, id, percentage = 0 }) => (
               <Link
