@@ -1,3 +1,5 @@
+import Spinner from "./Spinner";
+
 export default function Button({
   className,
   Component,
@@ -5,6 +7,7 @@ export default function Button({
   name,
   onClick,
   type = "PRIMARY",
+  loading = false,
 }) {
   let _className = "";
 
@@ -31,6 +34,7 @@ export default function Button({
     <button className={_className} disabled={disabled} onClick={onClick}>
       {name}
       {Component && <Component />}
+      {loading && <Spinner />}
     </button>
   );
 }
