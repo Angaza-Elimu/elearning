@@ -104,6 +104,7 @@ export default function LoginPage() {
                 name="Username"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
+                placeholder="johndoe"
               />
               <Input
                 label="Password"
@@ -111,6 +112,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 value={password}
+                placeholder="●●●●●●●"
               />
 
               {/* <p className="text-sm text-primary-700 -mt-1 cursor-pointer hover:underline">

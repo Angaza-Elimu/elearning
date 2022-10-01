@@ -193,6 +193,7 @@ export default function SignUpPage() {
                     Select school level
                   </label>
                 </div>
+
                 <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
                   <select
                     name="class"

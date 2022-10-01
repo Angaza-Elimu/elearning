@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import logo from "../public/logoWithName.svg";
-import { Button } from ".";
+import { Button, Header, Modal } from ".";
 import { ChevronLeft, Exit, Gear, Minimize } from "../assets";
 import navs from "../config/navs";
 import { setGrade } from "../store/features/gradeSlice";
@@ -17,6 +17,7 @@ export default function Sidebar({ onHide }) {
   const [visible, setVisible] = useState("");
   const [activeLink, setActiveLink] = useState();
   const [showGrades, setShowGrades] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const pathname = useRouter().pathname;
   const selectedGrade = useSelector((state) => state.grade.grade);
   const { profile } = useSelector((state) => state.profile);
@@ -54,6 +55,7 @@ export default function Sidebar({ onHide }) {
   }, []);
 
   const handleLogout = () => {
+    setOpenModal(false);
     try {
       logoutApi(token);
       logout();
@@ -146,7 +148,7 @@ export default function Sidebar({ onHide }) {
               </Link>
               <Exit
                 className="cursor-pointer stroke-neutral-500 hover:stroke-primary-600 transition-all duration-200 ease-out stroke-2 h-8 w-8"
-                onClick={handleLogout}
+                onClick={() => setOpenModal(true)}
               />
             </div>
 
@@ -156,6 +158,32 @@ export default function Sidebar({ onHide }) {
           </div>
         </div>
       </nav>
+
+      <Modal isOpen={openModal}>
+        <div className="flex flex-col">
+          <div className="flex flex-col justify-start gap-5 mb-5">
+            <div className="relative mx-auto h-16 w-16">
+              <Image src={"/images/hexagon.svg"} layout="fill" />
+            </div>
+
+            <h3 className="font-bold text-center text-primary-500">Log out</h3>
+          </div>
+
+          <div className="flex flex-col gap-5">
+            <p className="text-center text-neutral-500 text-sm">You're about to be logged out</p>
+
+            <div className="flex items-center justify-between gap-5">
+              <Button
+                name="Cancel"
+                type="SECONDARY"
+                className="w-full py-1.5 !text-primary-700 hover:!text-shade-light"
+                onClick={() => setOpenModal(false)}
+              />
+              <Button name="Confirm" className="w-full py-1.5" onClick={handleLogout} />
+            </div>
+          </div>
+        </div>
+      </Modal>
 
       {/* mobile navbar */}
       {/* <div className="absolute top-5 right-0 z-50 w-full bg-alerts-success lg:hidden">

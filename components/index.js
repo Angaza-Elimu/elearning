@@ -5,6 +5,7 @@ import Header from "./Header";
 import Input from "./Input";
 import Layout from "./Layout";
 import LearnCard from "./LearnCard";
+import Modal from "./Modal";
 import QuizCard from "./QuizCard";
 import Sidebar from "./Sidebar";
 import Spinner from "./Spinner";
@@ -17,6 +18,7 @@ export {
   Header,
   Input,
   Layout,
+  Modal,
   LearnCard,
   QuizCard,
   Sidebar,

@@ -13,6 +13,7 @@ export default function Input({
 }) {
   const [visible, setVisible] = useState(false);
   const [_type, setType] = useState("");
+  placeholder = placeholder ? placeholder : label.toLowerCase();
 
   const makeVisible = () => {
     setVisible(true);

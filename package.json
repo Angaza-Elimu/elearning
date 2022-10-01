@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@badrap/bar-of-progress": "^0.2.1",
+    "@headlessui/react": "^1.7.3",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "js-cookie": "^3.0.1",
