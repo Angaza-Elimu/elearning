@@ -188,7 +188,7 @@ export default function SignUpPage() {
                   </select>
                   <label
                     htmlFor="select_level"
-                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] text-lg text-neutral-500 font-medium px-1 select-none"
+                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none"
                   >
                     Select school level
                   </label>
@@ -212,7 +212,7 @@ export default function SignUpPage() {
                   </select>
                   <label
                     htmlFor="select_level"
-                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] text-lg text-neutral-500 font-medium px-1 select-none"
+                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none"
                   >
                     Select class
                   </label>
@@ -275,7 +275,9 @@ export default function SignUpPage() {
                 {password.length > 0 &&
                   confirmPassword.length > 0 &&
                   password !== confirmPassword && (
-                    <p className="text-alerts-danger text-sm -mt-6 pl-2">password does not match</p>
+                    <p className="text-alerts-danger text-sm -mt-3 md:-mt-6 pl-2">
+                      password does not match
+                    </p>
                   )}
 
                 <div className="w-full">

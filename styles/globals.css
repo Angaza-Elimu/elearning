@@ -31,7 +31,7 @@ select:focus-within ~ label {
 }
 
 select:not(:focus-within) ~ label {
-  @apply transform duration-300 scale-100 cursor-text font-normal;
+  @apply transform duration-300 scale-100 cursor-pointer font-normal;
 }
 
 /* image */

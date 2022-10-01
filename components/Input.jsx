@@ -28,7 +28,7 @@ export default function Input({
   }, [type]);
 
   return (
-    <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
+    <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-2 md:my-3">
       <input
         className="block w-full appearance-none focus:outline-none bg-transparent p-3 text-base placeholder-shown:text-right focus:text-left"
         id={label.toLowerCase().trim().split(" ").join("")}
@@ -48,7 +48,7 @@ export default function Input({
       />
       <label
         htmlFor={label.toLowerCase().trim().split(" ").join("")}
-        className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] text-lg text-neutral-500 font-medium px-1 select-none"
+        className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none"
       >
         {label}
       </label>
