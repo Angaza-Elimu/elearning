@@ -18,6 +18,7 @@ export default function QuizCard({
   hints,
   selectedAnswer,
   setSelectedAnswer,
+  quizName = "",
 }) {
   const options = ["A", "B", "C", "D", "E", "F", "G", "H"]; //answer options
   // const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -26,7 +27,7 @@ export default function QuizCard({
 
   return (
     <>
-      <Header text={`${"Number"} quiz`} />
+      <Header text={`${quizName ? quizName + " quiz" : "Quiz"}`} />
 
       <div className="max-w-6xl mr-auto w-full h-full flex-1 select-none flex flex-col">
         <div className="">
@@ -42,7 +43,7 @@ export default function QuizCard({
           </p>
         </div>
 
-        <div className="rounded-lg py-5 px-10 relative w-full flex flex-col flex-1 gap-2">
+        <div className="rounded-lg py-5 md:px-10 relative w-full flex flex-col flex-1 gap-2">
           {/* Question */}
           <div className="my-5">
             <div

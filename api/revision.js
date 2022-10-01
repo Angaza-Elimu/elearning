@@ -22,4 +22,15 @@ const answerRevisionQuestion = (token, data) =>
     }
   );
 
-export { getRevisionQuestions, answerRevisionQuestion };
+const submitRevision = (token, data) =>
+  api.post(
+    "/submitRevision",
+    { ...data },
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+export { getRevisionQuestions, answerRevisionQuestion, submitRevision };

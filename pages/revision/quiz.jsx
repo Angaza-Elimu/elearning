@@ -6,10 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 
 import { getToken, validToken } from "../../api/auth";
 // import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
-import { answerRevisionQuestion, getRevisionQuestions } from "../../api/revision";
+import { answerRevisionQuestion, getRevisionQuestions, submitRevision } from "../../api/revision";
+import { getTopics } from "../../api/topics";
 import { Button, Header, Layout, QuizCard } from "../../components";
 
-export default function QuizPage({ questions }) {
+export default function QuizPage({ questions, topic }) {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { query, ...router } = useRouter();
@@ -17,12 +18,14 @@ export default function QuizPage({ questions }) {
   const totalQuestion = questions.length;
   const [loading, setLoading] = useState(true);
   const { profile } = useSelector((state) => state.profile);
+  const { grade } = useSelector((state) => state.grade);
 
   const [correctlyAnswered, setCorrectlyAnswered] = useState(0);
   const [score, setScore] = useState(0);
   // const [providedAnswer, setProvidedAnswer] = useState("");
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [uniqueQuizId, setUniquedQuizId] = useState("");
+  const [startTime, setStartTime] = useState(null);
 
   const answers = [
     questions[currentQuestionIndex]?.option_a,
@@ -38,9 +41,9 @@ export default function QuizPage({ questions }) {
     questions[currentQuestionIndex]?.option_d_explanation,
   ];
 
-  const handleNextQuestion = async () => {
+  const submitQuizAnswer = async () => {
     let answered = {
-      student_id: "31303",
+      student_id: profile.id,
       topic_id: query.topic_id,
       subject_id: query.subject_id,
       answer: questions[currentQuestionIndex]?.answer,
@@ -49,23 +52,39 @@ export default function QuizPage({ questions }) {
       quiz_id: uniqueQuizId,
     };
 
-    setCurrentQuestionIndex((prev) => (prev < totalQuestion ? prev + 1 : prev));
-
     if (answers.indexOf(selectedAnswer) + 1 == questions[currentQuestionIndex]?.answer) {
       setCorrectlyAnswered((prev) => prev + 1);
       answered = { ...answered, marked: 1 };
-
-      // console.log("next question", selectedAnswer, questions[currentQuestionIndex]?.answer);
-      // console.log("answered", answered);
     }
 
-    //call the answer api here to send the answer to the server
-    const { data } = await answerRevisionQuestion(getToken(), answered);
+    await answerRevisionQuestion(getToken(), answered);
   };
 
-  const handleQuizFinished = () => {
+  const handleNextQuestion = async () => {
+    await submitQuizAnswer();
+    setCurrentQuestionIndex((prev) => (prev < totalQuestion ? prev + 1 : prev));
+  };
+
+  const handleQuizFinished = async () => {
+    await submitQuizAnswer();
+
+    let submit = {
+      student_id: profile.id,
+      class: grade.id,
+      school_code: profile.school_code,
+      topic_id: query.topic_id,
+      subject_id: query.subject_id,
+      correctly_answered: correctlyAnswered,
+      wrongly_answered: totalQuestion - correctlyAnswered,
+      total_questions: totalQuestion,
+      quiz_id: uniqueQuizId,
+      total_time: Math.round((Date.now() - startTime) / 1000),
+    };
+
     setIsQuizFinished(true);
-    // console.log("quiz finished");
+
+    // submit quiz
+    await submitRevision(getToken(), submit);
   };
 
   //route protection
@@ -73,11 +92,11 @@ export default function QuizPage({ questions }) {
     !validToken() ? router.push("/") : setLoading(false);
   }, []);
 
+  //initiatlization of quiz data
   useEffect(() => {
     setUniquedQuizId(uuidv4());
+    setStartTime(Date.now());
   }, []);
-
-  console.log(uniqueQuizId);
 
   return loading ? null : (
     <Layout title={`Revision Quiz`}>
@@ -109,6 +128,7 @@ export default function QuizPage({ questions }) {
             totalQuestion={totalQuestion}
             correctAnswer={answers[questions[currentQuestionIndex]?.answer - 1]}
             hints={answerHints}
+            quizName={topic?.topic_name}
           />
         ) : (
           <>
@@ -159,6 +179,7 @@ export default function QuizPage({ questions }) {
 
 export const getServerSideProps = async ({ req: { cookies }, query }) => {
   const { topic_id, subject_id } = query;
+  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade).grade.id;
 
   if (!topic_id || !subject_id) {
     return {
@@ -168,6 +189,7 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
 
   // let { data: questions } = await getOpenEndedRevisionQuestions(cookies.token, topic_id);
   let { data: questions } = await getRevisionQuestions(cookies.token, topic_id, subject_id);
+  let { data: topic } = await getTopics(class_id, subject_id, cookies.token);
 
   if (questions.length === 0) {
     return {
@@ -179,8 +201,9 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
   }
 
   questions = _.shuffle(questions).slice(0, 50); //selects 50 random questions
+  topic = topic.find((t) => t.id.toString() === topic_id);
 
   return {
-    props: { questions },
+    props: { questions, topic },
   };
 };
