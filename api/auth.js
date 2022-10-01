@@ -34,4 +34,6 @@ const validToken = (token) => {
   }
 };
 
-export { getToken, loginApi, logoutApi, loginWithToken, logout, validToken };
+const signUp = async (data) => api.post("/auth/signup", { ...data });
+
+export { getToken, loginApi, logoutApi, loginWithToken, logout, validToken, signUp };

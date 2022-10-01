@@ -10,6 +10,7 @@ import { Button, Input, Title } from "../components";
 import { loginApi, loginWithToken, validToken } from "../api/auth";
 import { useState, useEffect } from "react";
 import { setToken, setProfile } from "../store/features/profileSlice";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -88,9 +89,13 @@ export default function LoginPage() {
           <div className="mx-auto w-full md:max-w-md">
             <p className="text-center mb-5 text-neutral-500">
               Don't have an account?{" "}
-              <span className="text-primary-700 font-semibold cursor-pointer hover:underline">
-                Sign Up
-              </span>
+              <Link passHref href="/signup">
+                <a>
+                  <span className="text-primary-700 font-semibold cursor-pointer hover:underline">
+                    Sign Up
+                  </span>
+                </a>
+              </Link>
             </p>
 
             <div className="flex flex-col">

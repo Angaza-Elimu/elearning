@@ -20,6 +20,20 @@ input:not(:focus-within) ~ label {
   @apply transform duration-300 scale-100 cursor-text font-normal;
 }
 
+/*select styles */
+select:focus-within ~ label,
+select:not(:placeholder-shown) ~ label {
+  @apply transform scale-90 -translate-y-6;
+}
+
+select:focus-within ~ label {
+  @apply text-primary-700;
+}
+
+select:not(:focus-within) ~ label {
+  @apply transform duration-300 scale-100 cursor-text font-normal;
+}
+
 /* image */
 /*.image {
   @apply mt-3;

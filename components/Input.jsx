@@ -1,9 +1,18 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { HiddenEyes, VisibleEyes } from "../assets";
 
-export default function Input({ label = "", name, value, type = "text", onChange, ...others }) {
+export default function Input({
+  label = "",
+  name,
+  value,
+  type = "text",
+  onChange,
+  placeholder,
+  ...others
+}) {
   const [visible, setVisible] = useState(false);
-  const [_type, setType] = useState(type);
+  const [_type, setType] = useState("");
 
   const makeVisible = () => {
     setVisible(true);
@@ -14,10 +23,14 @@ export default function Input({ label = "", name, value, type = "text", onChange
     setType("password");
   };
 
+  useEffect(() => {
+    setType(type);
+  }, [type]);
+
   return (
-    <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outlinex my-3">
+    <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
       <input
-        className="block w-full appearance-none focus:outline-none bg-transparent p-3 text-base"
+        className="block w-full appearance-none focus:outline-none bg-transparent p-3 text-base placeholder-shown:text-right focus:text-left"
         id={label.toLowerCase().trim().split(" ").join("")}
         name={label.toLowerCase().trim().split(" ").join("")}
         onChange={onChange}
@@ -28,7 +41,7 @@ export default function Input({ label = "", name, value, type = "text", onChange
             e.currentTarget.value.length
           )
         }
-        placeholder={label}
+        placeholder={placeholder}
         type={_type}
         value={value}
         {...others}
