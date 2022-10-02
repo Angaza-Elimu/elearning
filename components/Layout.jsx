@@ -16,7 +16,7 @@ export default function Layout({ children, title = "" }) {
         <div className={`h-screen flex w-full`}>
           {/* sidebar */}
           <div
-            className={`bg-light h-full transition-all ease-in-out duration-300 w-5/12 mx-auto lg:w-[280px] absolute lg:relative ${
+            className={`bg-light h-full transition-all ease-in-out duration-300 w-full mx-auto lg:w-[280px] absolute lg:relative ${
               !showSidebar ? "lg:-ml-[280px]" : "lg:ml-0"
             }`}
           >

@@ -11,6 +11,7 @@ import Forum from "./Forum";
 import Gear from "./Gear";
 import GreenTick from "./GreenTick";
 import HiddenEyes from "./HiddenEyes";
+import HamburgerMenu from "./HamburgerMenu";
 import Info from "./Info";
 import Kcpe from "./Kcpe";
 import Learn from "./Learn";
@@ -31,6 +32,7 @@ export {
   Gear,
   GreenTick,
   HiddenEyes,
+  HamburgerMenu,
   Info,
   Kcpe,
   Learn,
