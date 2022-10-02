@@ -49,7 +49,8 @@ export default function PickASubjectPage({ topics }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
-  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
+  // const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
+  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade).grade.id;
 
   const { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);
   if (status !== 200) topics = [];

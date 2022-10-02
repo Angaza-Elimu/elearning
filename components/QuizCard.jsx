@@ -16,7 +16,7 @@ export default function QuizCard({
   answer_no,
 }) {
   const options = ["A", "B", "C", "D", "E", "F", "G", "H"]; //answer options
-  const answer = {1: "A", 2: "B", 3: "C", 4: "D"}
+  const answer = { 1: "A", 2: "B", 3: "C", 4: "D" };
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [selectedAnswerNumber, setSelectedAnswerNumber] = useState(null);
   const [showHint, setShowHint] = useState(null);
@@ -33,10 +33,12 @@ export default function QuizCard({
               style={{ width: `${(currentQuestion / totalQuestion) * 100}%` }}
             />
           </div>
-         { totalQuestion && <p className="mt-1 text-neutral-500 font-medium text-sm">
-            <span className="text-lg font-semibold text-accent-600">{currentQuestion + 1}</span>/
-            {totalQuestion}
-          </p>}
+          {totalQuestion && (
+            <p className="mt-1 text-neutral-500 font-medium text-sm">
+              <span className="text-lg font-semibold text-accent-600">{currentQuestion + 1}</span>/
+              {totalQuestion}
+            </p>
+          )}
         </div>
 
         <div className="rounded-lg py-5 md:px-10 relative w-full flex flex-col flex-1 gap-2">
@@ -70,7 +72,7 @@ export default function QuizCard({
                 }`}
                 key={index}
                 onClick={() => {
-                  setSelectedAnswerNumber(index + 1)
+                  setSelectedAnswerNumber(index + 1);
                   !showHint && setSelectedAnswer(answer);
                 }}
               >
