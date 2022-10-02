@@ -188,10 +188,10 @@ export default function Sidebar({ onHide }) {
       </Modal>
 
       {/* mobile navbar */}
-      <div className="absolute top-0 right-1 z-50 lg:hidden">
-        <div className="relative flex flex-row items-center gap-5 pt-2 pr-2">
+      <div className="sticky w-full bg-shade-light shadow-md top-0 right-1 z-50 lg:hidden">
+        <div className="relative flex flex-row items-center gap-5 pt-2 py-2.5 pr-2">
           {/* class dropdown */}
-          <div className="mx-auto relative flex items-center gap-3">
+          <div className="ml-auto relative flex items-center gap-3">
             <Button
               className="w-full p-2 !py-1 flex gap-2 !pr-1"
               name={selectedGrade?.class_name}
