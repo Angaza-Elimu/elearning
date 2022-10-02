@@ -1,21 +1,22 @@
 import Link from "next/link";
 import { GreenTick } from "../../../assets";
 import { Breadcomb, Button, Header, Layout } from "../../../components";
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 export default function NotesPage() {
-  const recommendedTopics = [
-    { id: 1, name: "Rounding off", done: false },
-    { id: 2, name: "Square & square root", done: false },
-  ];
+  const recommendedTopics = useSelector((state) => state.recommendation.recommendations);
 
-  const otherTopics = [
-    { id: 10, name: "Sequences", done: true },
-    { id: 11, name: "Square & square root", done: true },
-    { id: 12, name: "Combined operations", done: false },
-    { id: 13, name: "Reading & writing numbers", done: false },
-    { id: 14, name: "Subtopic", done: false },
-    { id: 15, name: "Subtopic", done: false },
-  ];
+  const subtopics = useSelector((state) => state.subtopics.subtopics)
+
+
+  const invalid = recommendedTopics.map((el) => el.id)
+
+  const otherTopics = subtopics.filter((el) => !invalid.includes(el.id));
+
+  const setTopic = (id) => {
+    Cookies.set("subtopic_id", id)
+  }
 
   return (
     <Layout>
@@ -26,16 +27,17 @@ export default function NotesPage() {
           <Header text="You can choose our recommendations:" />
 
           <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
-            {recommendedTopics.map((rt) => (
-              <Link passHref href={`/learn/notes/${rt.id}`} key={rt.id.toString()}>
+            {recommendedTopics.map((rt, index) => (
+              <Link passHref href={`/learn/notes/${rt.id.toString()}`} key={index}>
                 <div className="relative">
                   {rt.done && (
                     <div className="absolute -top-5 -right-2 h-10 w-10">
-                      <GreenTick />
+                      {/* <GreenTick /> */}
                     </div>
                   )}
                   <Button
-                    name={rt.name}
+                    name={rt.subtopic_name}
+                    onClick={() => setTopic(rt.id)}
                     type="SECONDARY"
                     className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700 w-full"
                   />
@@ -45,28 +47,34 @@ export default function NotesPage() {
           </div>
         </div>
 
-        <div className="mt-16">
-          <Header text="Or choose a subtopic you like:" />
+        {
+          otherTopics.length > 0 && (
+            <div className="mt-16">
+              <Header text="Or choose a subtopic you like:" />
 
-          <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
-            {otherTopics.map((ot) => (
-              <Link passHref href={`/learn/notes/${ot.id}`} key={ot.id.toString()}>
-                <div className="relative">
-                  {ot.done && (
-                    <div className="absolute -top-5 -right-2 h-10 w-10">
-                      <GreenTick />
+              <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
+                {otherTopics.map((ot) => (
+                  <Link passHref href={`/learn/notes/${ot.id}`} key={ot.id.toString()}>
+                    <div className="relative">
+                      {ot.done && (
+                        <div className="absolute -top-5 -right-2 h-10 w-10">
+                          {/* <GreenTick /> */}
+                        </div>
+                      )}
+                      <Button
+                        name={ot.subtopic_name}
+                        onClick={() => setTopic(ot.id)}
+                        type="SECONDARY"
+                        className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700 w-full"
+                      />
                     </div>
-                  )}
-                  <Button
-                    name="Square & square root"
-                    type="SECONDARY"
-                    className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700 w-full"
-                  />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )
+        }
+
       </div>
     </Layout>
   );

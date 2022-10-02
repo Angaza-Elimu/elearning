@@ -1,13 +1,17 @@
 import _ from "lodash";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { getTopics } from "../../../api/topics";
-
+import Cookies from "js-cookie";
 import { Breadcomb, Header, Layout, LearnCard } from "../../../components";
 
 export default function PickASubjectPage({ topics }) {
   const { query } = useRouter();
-
+  const setTopic = (id, name) => {
+    Cookies.set("topic_id", id)
+    Cookies.set("topic_name", name)
+    Cookies.set("subject_name", query.subject)
+  }
   return (
     <Layout title={`Pick a ${query.subject} Topic`}>
       <div>
@@ -32,7 +36,7 @@ export default function PickASubjectPage({ topics }) {
                 key={id.toString()}
                 passHref
               >
-                <a>
+                <a onClick={() => setTopic(id, topic_name)}>
                   <LearnCard title={topic_name} subtitle={percentage} hasNoIcon />
                 </a>
               </Link>

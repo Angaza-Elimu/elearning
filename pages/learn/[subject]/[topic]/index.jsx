@@ -1,27 +1,66 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import teamSuccessImage from "../../../../public/images/teamSuccess.svg";
-
+import { useRouter } from "next/router";
 import { Breadcomb, Button, Layout, QuizCard } from "../../../../components";
-import Link from "next/link";
+import { getDiagnosticsQuestionsApi } from "../../../../api/diagnostics";
+import { validToken } from "../../../../api/auth";
+import Recommendation from "../../../../components/Recommendation";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { getSubtopics } from "../../../../api/subtopics";
+import { setSubtopics } from "../../../../store/features/subtopicsSlice";
 
-export default function QuizPage() {
-  const { query } = useRouter();
+export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion, subtopics }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [isQuizStarted, setIsQuizStarted] = useState(false);
   const [isQuizFinished, setIsQuizFinished] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [id, setId] = useState(10);
-  const totalQuestion = 2;
-  // ${query.topic[0].toUpperCase() + query.topic.substring(1)}
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [totalScore, setTotalScore] = useState(0)
+  const [loading, setLoading] = useState(true);
+  const [payload, setPayload] = useState(null);
+  const [answers, setAnswers] = useState([])
+  const options = {1: 'option_a', 2: 'option_b', 3: 'option_c', 4: 'option_d'}
 
-  const recommendedTopics = [
-    { id: 1, name: "Rounding off", done: false },
-    { id: 2, name: "Square & square root", done: false },
-    { id: 3, name: "Place value & total value", done: false },
-  ];
+  const handleNext = (selectedAnswer) => {
+    if(selectedAnswer === diagnostic_questions[currentQuestion].answer) {
+      score = totalScore + 1;
+      setTotalScore(score)
+    }
+    const newQuestion = {
+      "id": diagnostic_questions[currentQuestion].id,
+      "subtopic_id": diagnostic_questions[currentQuestion].subtopic_id,
+      "subject_id": diagnostic_questions[currentQuestion].subject_id,
+      "created_at": diagnostic_questions[currentQuestion].created_at,
+      "question_level": diagnostic_questions[currentQuestion].question_level,
+      "marked": selectedAnswer === diagnostic_questions[currentQuestion].answer ? 1 : 0
+    }
+    setAnswers((previous) => [...previous, newQuestion ])
+    setCurrentQuestion((prev) => (prev < totalQuestion ? prev + 1 : prev))
+  }
+
+  const handleFinish = () => {
+    const payload = {
+      topic_id,
+      total_score: totalScore,
+      answers
+    }
+    setPayload(payload)
+    setIsQuizFinished(true)
+  }
+
+  useEffect(() => {
+    !validToken() ? router.push("/") : setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    dispatch(setSubtopics(subtopics))
+  }, [subtopics]);
+
 
   const Welcome = () => {
+    if(totalQuestion < 1) router.push(`/learn/topics/${topic_id}`);
     return (
       <div className="max-w-7xl mx-auto my-auto flex flex-1 h-full">
         <div className="flex flex-col flex-wrap flex-1 justify-around">
@@ -39,6 +78,7 @@ export default function QuizPage() {
             <Button
               className="md:w-1/3 mt-5 mx-auto"
               name="Start Quiz"
+              disabled={diagnostic_questions.length < 1}
               onClick={setIsQuizStarted}
             />
           </div>
@@ -48,84 +88,31 @@ export default function QuizPage() {
   };
 
   if (isQuizFinished)
-    return (
-      <Layout title="Quiz Finished">
-        <Breadcomb />
-
-        <div className="max-w-7xl mx-auto my-auto flex flex-1 h-full">
-          <div className="flex flex-col flex-wrap flex-1 justify-evenly">
-            <div className="relative h-48">
-              <Image src={teamSuccessImage} alt="" layout="fill" />
-            </div>
-
-            <div className="flex flex-col w-full mx-auto text-center">
-              <div className="flex-1 justify-self-start">
-                <h2 className="font-bold text-2xl">You're doing great.</h2>
-                <p className="text-center text-lg mt-2 w-2/3 mx-auto">
-                  Below are three subtopics we recommend you to start learning.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-5 flex-wrap justify-center mt-5">
-              {recommendedTopics.map((rt) => (
-                <Link passHref href={`/learn/notes/${rt.id.toString()}`} key={rt.id.toString()}>
-                  <Button
-                    key={rt.id.toString()}
-                    name={rt.name}
-                    type="SECONDARY"
-                    className="text-shade-dark hover:bg-primary-700/90 hover:text-shade-light border-primary-700"
-                  />
-                </Link>
-              ))}
-            </div>
-
-            <div className="text-center text-lg">
-              <p>
-                Not interested?{" "}
-                <Link passHref href="/learn/notes">
-                  <a>
-                    <span className="text-primary-700 cursor-pointer hover:underline font-semibold">
-                      Choose a different subtopic
-                    </span>
-                  </a>
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
+    return (<Recommendation payload={payload}/>)
 
   return (
     <Layout title={`Quiz`}>
       <>
         <Breadcomb />
 
-        {isQuizStarted && !isQuizFinished ? (
+        {diagnostic_questions.length > 0 && isQuizStarted && !isQuizFinished ? (
           <QuizCard
             answers={[
-              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/24c1f0e396d07602c8da43ba7bd20f72a50c8bf7.png"></figure>`,
-              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/309cad8778e21ed1f3a54849aba288b117ec9cf6.png"></figure>`,
-              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/2da9de34a5c6a875f1b1cb30f1a747f96edc554a.png"></figure>`,
-              `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/85676fc9db73a8b7f0fae98a04b1a17d7dc9eb3f.png"></figure>`,
+              `${diagnostic_questions[currentQuestion].option_a}`,
+              `${diagnostic_questions[currentQuestion].option_b}`,
+              `${diagnostic_questions[currentQuestion].option_c}`,
+              `${diagnostic_questions[currentQuestion].option_d}`,
             ]}
-            correctAnswer={`<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/85676fc9db73a8b7f0fae98a04b1a17d7dc9eb3f.png"></figure>`}
+            correctAnswer={`${diagnostic_questions[currentQuestion][options[diagnostic_questions[currentQuestion].answer]]}`}
             currentQuestion={currentQuestion}
             id={currentQuestion}
-            lastQuestion={currentQuestion === totalQuestion}
-            onNextQuestion={() =>
-              setCurrentQuestion((prev) => (prev < totalQuestion ? prev + 1 : prev))
-            }
-            onQuizFinished={() => setIsQuizFinished(true)}
-            // question="What is the place value of digit 6 in the number 86457?"
-            question={`
-            <p>What is the answer to the below?<p/>
-            <figure class="image">
-              <img src="https://staging.angazaelimu.com/userfiles/a9bce49d60f006e5012301dd9f5b34ac12c15052.png" alt='' />
-            </figure>
-            `}
+            lastQuestion={currentQuestion === totalQuestion - 1}
+            onNextQuestion={handleNext}
+            onQuizFinished={handleFinish}
+            question={diagnostic_questions[currentQuestion].question}
             totalQuestion={totalQuestion}
+            additional_notes={diagnostic_questions[currentQuestion].additional_notes}
+            answer_no={diagnostic_questions[currentQuestion].answer}
           />
         ) : (
           Welcome()
@@ -135,8 +122,22 @@ export default function QuizPage() {
   );
 }
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async ({ req: { cookies }, params }) => {
+  const [res1, res2] = await Promise.all([
+    getSubtopics(cookies.topic_id, cookies.token),
+    getDiagnosticsQuestionsApi( cookies.token, cookies.topic_id)
+  ])
+
+  const [result1, result2] = await Promise.all([
+    res1.data,
+    res2.data
+  ])
   return {
-    props: {},
+    props: {
+      diagnostic_questions: result2 ? result2.questions : [],
+      topic_id: cookies.topic_id,
+      subtopics: result1,
+      totalQuestion: result2.questions.length
+    },
   };
 };
