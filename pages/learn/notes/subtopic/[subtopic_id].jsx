@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Breadcomb, Button, Header, Layout } from "../../../components";
-import { getSubtopicNotes } from "../../../api/note";
+import { Breadcomb, Button, Header, Layout } from "../../../../components";
+import { getSubtopicNotes } from "../../../../api/note";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { validToken } from "../../../api/auth";
+import { validToken } from "../../../../api/auth";
 
 export default function NotePage({note, topic_id, subtopic_id}) {
   const [loading, setLoading] = useState(true);
