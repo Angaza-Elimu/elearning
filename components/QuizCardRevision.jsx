@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AnswerRightTick, AnswerWrongTick, ChevronLeft, Info } from "../assets";
-import { Button, Header } from "./";
+import { Button, Header } from ".";
 
-export default function QuizCard({
+export default function QuizCardRevision({
   answers,
   currentQuestion,
   id,

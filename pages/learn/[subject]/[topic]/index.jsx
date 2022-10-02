@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import teamSuccessImage from "../../../../public/images/teamSuccess.svg";
 
-import { Breadcomb, Button, Layout, QuizCard } from "../../../../components";
+import { Breadcomb, Button, Layout, QuizCardRevision } from "../../../../components";
 import Link from "next/link";
 
 export default function QuizPage() {
@@ -103,7 +103,7 @@ export default function QuizPage() {
         <Breadcomb />
 
         {isQuizStarted && !isQuizFinished ? (
-          <QuizCard
+          <QuizCardRevision
             answers={[
               `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/24c1f0e396d07602c8da43ba7bd20f72a50c8bf7.png"></figure>`,
               `<figure class="image"><img src="https://staging.angazaelimu.com/userfiles/309cad8778e21ed1f3a54849aba288b117ec9cf6.png"></figure>`,

@@ -8,7 +8,7 @@ import { getToken, validToken } from "../../api/auth";
 // import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
 import { answerRevisionQuestion, getRevisionQuestions, submitRevision } from "../../api/revision";
 import { getTopics } from "../../api/topics";
-import { Button, Header, Layout, QuizCard } from "../../components";
+import { Button, Header, Layout, QuizCardRevision } from "../../components";
 
 export default function QuizPage({ questions, topic }) {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
@@ -115,7 +115,7 @@ export default function QuizPage({ questions, topic }) {
           //   totalQuestion={totalQuestion}
           //   correctAnswer={questions[currentQuestionIndex]?.answer}
           // />
-          <QuizCard
+          <QuizCardRevision
             answers={answers}
             selectedAnswer={selectedAnswer}
             setSelectedAnswer={setSelectedAnswer}
