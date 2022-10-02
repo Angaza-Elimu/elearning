@@ -10,7 +10,7 @@ export default function LearnCard({
 }) {
   return (
     <div
-      className={`px-8 py-10 pb-5 bg-shade-light rounded-xl hover:shadow-lg hover:scale-105 transition-all ease-in-out duration-75 h-fit cursor-pointer relative select-none ${
+      className={`px-5 md:px-8 md:py-10 py-5 pb-5 bg-shade-light rounded-xl hover:shadow-lg hover:scale-105 transition-all ease-in-out duration-75 h-fit cursor-pointer relative select-none ${
         hasNoIcon ? "py-5" : "py-10"
       }`}
       onClick={onClick}

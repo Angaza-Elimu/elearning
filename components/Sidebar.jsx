@@ -5,8 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import logo from "../public/logoWithName.svg";
-import { Button, Header, Modal } from ".";
-import { ChevronLeft, Exit, Gear, Minimize } from "../assets";
+import { Button, Modal } from ".";
+import { ChevronLeft, Exit, Gear, HamburgerMenu, Minimize } from "../assets";
 import navs from "../config/navs";
 import { setGrade } from "../store/features/gradeSlice";
 import { logout as logoutAction } from "../store/features/profileSlice";
@@ -18,6 +18,8 @@ export default function Sidebar({ onHide }) {
   const [activeLink, setActiveLink] = useState();
   const [showGrades, setShowGrades] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
+
   const pathname = useRouter().pathname;
   const selectedGrade = useSelector((state) => state.grade.grade);
   const { profile } = useSelector((state) => state.profile);
@@ -186,9 +188,72 @@ export default function Sidebar({ onHide }) {
       </Modal>
 
       {/* mobile navbar */}
-      {/* <div className="absolute top-5 right-0 z-50 w-full bg-alerts-success lg:hidden">
-        hello world
-      </div> */}
+      <div className="absolute top-0 right-1 z-50 lg:hidden">
+        <div className="relative flex flex-row items-center gap-5 pt-2 pr-2">
+          {/* class dropdown */}
+          <div className="mx-auto relative flex items-center gap-3">
+            <Button
+              className="w-full p-2 !py-1 flex gap-2 !pr-1"
+              name={selectedGrade?.class_name}
+              onClick={showGrades ? () => setShowGrades(false) : () => setShowGrades(true)}
+              Component={() => (
+                <ChevronLeft
+                  className={`stroke-shade-light h-6 w-6 stroke-2 transition-all duration-300 -rotate-90 ${
+                    showGrades ? "" : "rotate-180"
+                  }`}
+                />
+              )}
+            />
+            {showGrades && (
+              <div className="absolute top-11 w-44 overflow-hidden shadow-2xl rounded-lg">
+                <div className="bg-shade-light flex flex-col gap-2 text-lg font-medium py-2 ">
+                  {grades.map(({ class_name, id }) => (
+                    <div
+                      className={`p-2 px-8 cursor-pointer hover:bg-primary-700 hover:text-shade-light ${
+                        selectedGrade.id === id && "bg-primary-900 text-primary-500 shadow"
+                      }`}
+                      onClick={() => {
+                        setShowGrades(false);
+                        dispatch(setGrade({ class_name, id }));
+                        router.reload();
+                      }}
+                      key={id}
+                    >
+                      <p>{class_name}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div
+            className="h-12 w-12 relative cursor-pointer group"
+            onClick={() => setOpenDropdown((prev) => !prev)}
+          >
+            <HamburgerMenu className="group-hover:stroke-primary-700 stroke-[#717A84]" />
+          </div>
+
+          {openDropdown && (
+            <div className="flex flex-col absolute top-14 right-0 rounded-lg shadow-lg bg-shade-light overflow-hidden w-80">
+              {Object.values(navs(profile?.learning_system)).map((nav, i) => (
+                <Link href={nav.url} passHref key={i}>
+                  <a
+                    className={`p-2 py-3 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative ${
+                      activeLink === nav.url && "bg-primary-900 text-primary-600 font-semibold"
+                    }`}
+                    onClick={() => setOpenDropdown(false)}
+                  >
+                    <div className="flex gap-4 justify-start pl-6 items-center ">
+                      <p className="flex-1 text-lg">{nav.name}</p>
+                    </div>
+                  </a>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }
