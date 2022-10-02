@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { gradeReducer, settingsReducer, profileReducer } from "./features";
+import { gradeReducer, settingsReducer, profileReducer, recommendationReducer, diagnosticsReducer, quizReducer, subtopicsReducer } from "./features";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
@@ -16,6 +16,10 @@ const reducers = combineReducers({
   grade: gradeReducer,
   settings: settingsReducer,
   profile: profileReducer,
+  recommendation: recommendationReducer,
+  diagnostics: diagnosticsReducer,
+  quiz: quizReducer,
+  subtopics: subtopicsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
