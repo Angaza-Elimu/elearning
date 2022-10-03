@@ -52,7 +52,7 @@ export default function Recommendation({ payload }){
 
             <div className="flex items-center gap-5 flex-wrap justify-center mt-5">
               {recommendedTopics && recommendedTopics.length > 0 && recommendedTopics.map((rt, index) => (
-                <Link passHref  href={`/learn/notes/${rt.id.toString()}`} key={index}>
+                <Link passHref  href={`/learn/notes/subtopic/${rt.id.toString()}`} key={index}>
                   <a onClick={() => Cookies.set("subtopic_id", rt.id.toString())}>
                     <Button
                       key={index}

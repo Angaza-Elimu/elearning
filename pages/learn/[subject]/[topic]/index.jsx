@@ -24,7 +24,8 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
   const options = {1: 'option_a', 2: 'option_b', 3: 'option_c', 4: 'option_d'}
 
   const handleNext = (selectedAnswer) => {
-    if(selectedAnswer === diagnostic_questions[currentQuestion].answer) {
+    const isCorrect = parseInt(selectedAnswer) === parseInt(diagnostic_questions[currentQuestion].answer);
+    if(isCorrect) {
       score = totalScore + 1;
       setTotalScore(score)
     }
@@ -34,7 +35,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
       "subject_id": diagnostic_questions[currentQuestion].subject_id,
       "created_at": diagnostic_questions[currentQuestion].created_at,
       "question_level": diagnostic_questions[currentQuestion].question_level,
-      "marked": selectedAnswer === diagnostic_questions[currentQuestion].answer ? 1 : 0
+      "marked": isCorrect ? 1 : 0
     }
     setAnswers((previous) => [...previous, newQuestion ])
     setCurrentQuestion((prev) => (prev < totalQuestion ? prev + 1 : prev))
