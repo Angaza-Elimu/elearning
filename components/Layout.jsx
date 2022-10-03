@@ -24,7 +24,7 @@ export default function Layout({ children, title = "" }) {
           </div>
 
           <main
-            className={`bg-neutral-900 p-5 md:px-10 flex flex-col gap-6 flex-1 overflow-y-auto md:pt-8 pb-1.5 transition-all ease-in-out duration-300 mt-14 md:mt-0  ${
+            className={`bg-neutral-900 p-5 md:px-10 flex flex-col gap-6 flex-1 overflow-y-auto md:pt-8 pb-1.5 transition-all ease-in-out duration-300 mt-12 md:mt-0  ${
               !showSidebar ? "w-[calc(100%_-_280px)]" : "w-full"
             } `}
           >

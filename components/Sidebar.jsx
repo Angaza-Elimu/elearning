@@ -178,7 +178,7 @@ export default function Sidebar({ onHide }) {
               <Button
                 name="Cancel"
                 type="SECONDARY"
-                className="w-full py-1.5 !text-primary-700 hover:!text-shade-light"
+                className="w-full py-1.5 !text-primary-700 hover:!text-shade-light outline-none"
                 onClick={() => setOpenModal(false)}
               />
               <Button name="Confirm" className="w-full py-1.5" onClick={handleLogout} />
@@ -189,13 +189,22 @@ export default function Sidebar({ onHide }) {
 
       {/* mobile navbar */}
       <div className="sticky w-full bg-shade-light shadow-md top-0 right-1 z-50 lg:hidden">
-        <div className="relative flex flex-row items-center gap-5 pt-2 py-2.5 pr-2">
+        <div className="relative flex flex-row items-center gap-3 py-1 px-2 ">
           {/* class dropdown */}
+          <div className="relative h-8 w-8">
+            <Image src="/logo.svg" layout="fill" />
+          </div>
           <div className="ml-auto relative flex items-center gap-3">
             <Button
               className="w-full p-2 !py-1 flex gap-2 !pr-1"
               name={selectedGrade?.class_name}
-              onClick={showGrades ? () => setShowGrades(false) : () => setShowGrades(true)}
+              onClick={
+                showGrades
+                  ? () => setShowGrades(false)
+                  : () => {
+                      setShowGrades(true), setOpenDropdown(false);
+                    }
+              }
               Component={() => (
                 <ChevronLeft
                   className={`stroke-shade-light h-6 w-6 stroke-2 transition-all duration-300 -rotate-90 ${
@@ -228,28 +237,52 @@ export default function Sidebar({ onHide }) {
           </div>
 
           <div
-            className="h-12 w-12 relative cursor-pointer group"
-            onClick={() => setOpenDropdown((prev) => !prev)}
+            className="h-10 w-10 relative cursor-pointer group"
+            onClick={() => {
+              setOpenDropdown((prev) => !prev);
+              setShowGrades(false);
+            }}
           >
             <HamburgerMenu className="group-hover:stroke-primary-700 stroke-[#717A84]" />
           </div>
 
           {openDropdown && (
-            <div className="flex flex-col absolute top-14 right-0 rounded-lg shadow-lg bg-shade-light overflow-hidden w-80">
+            <div className="flex flex-col absolute top-11 right-0 rounded-lg shadow-lg bg-shade-light overflow-hidden w-80">
               {Object.values(navs(profile?.learning_system)).map((nav, i) => (
                 <Link href={nav.url} passHref key={i}>
                   <a
-                    className={`p-2 py-3 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative ${
+                    className={`p-2.5 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative ${
                       activeLink === nav.url && "bg-primary-900 text-primary-600 font-semibold"
                     }`}
                     onClick={() => setOpenDropdown(false)}
                   >
-                    <div className="flex gap-4 justify-start pl-6 items-center ">
+                    <div className="flex gap-4 justify-start px-3 py-0.5 items-center ">
                       <p className="flex-1 text-lg">{nav.name}</p>
                     </div>
                   </a>
                 </Link>
               ))}
+              <Link href="/wip/settings">
+                <a
+                  className={`p-2.5 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative `}
+                  onClick={() => setOpenDropdown(false)}
+                >
+                  <div className="flex gap-4 justify-start px-3 py-0.5 items-center ">
+                    <p className="flex-1 text-lg">Settings</p>
+                  </div>
+                </a>
+              </Link>
+              <div
+                className={`p-2.5 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative `}
+                onClick={() => {
+                  setOpenDropdown(false);
+                  setOpenModal(true);
+                }}
+              >
+                <div className="flex gap-4 justify-start px-3 py-0.5 items-center ">
+                  <p className="flex-1 text-lg">Log out</p>
+                </div>
+              </div>
             </div>
           )}
         </div>
