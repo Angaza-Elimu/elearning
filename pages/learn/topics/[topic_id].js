@@ -20,7 +20,7 @@ export default function PickASubtopicPage({ subtopics }) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10">
             {_.orderBy(subtopics, "topic_name").map(({ id, subtopic_name, percentage = 0 }) => (
               <Link
-                href={`/learn/notes/${id}`}
+                href={`/learn/notes/subtopic/${id}`}
                 key={id.toString()}
                 passHref
               >

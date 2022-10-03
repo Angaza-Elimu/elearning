@@ -28,7 +28,7 @@ export default function NotesPage() {
 
           <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
             {recommendedTopics.map((rt, index) => (
-              <Link passHref href={`/learn/notes/${rt.id.toString()}`} key={index}>
+              <Link passHref href={`/learn/notes/subtopic/${rt.id.toString()}`} key={index}>
                 <div className="relative">
                   {rt.done && (
                     <div className="absolute -top-5 -right-2 h-10 w-10">
@@ -54,7 +54,7 @@ export default function NotesPage() {
 
               <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
                 {otherTopics.map((ot) => (
-                  <Link passHref href={`/learn/notes/${ot.id}`} key={ot.id.toString()}>
+                  <Link passHref href={`/learn/notes/subtopic/${ot.id}`} key={ot.id.toString()}>
                     <div className="relative">
                       {ot.done && (
                         <div className="absolute -top-5 -right-2 h-10 w-10">

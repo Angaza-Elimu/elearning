@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const server = "https://recommendation.angazaelimu.com";
+const server = "http://recommendation.angazaelimu.com";
 
 export const api = axios.create({
   baseURL: server,
