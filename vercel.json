@@ -4,7 +4,7 @@
       "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "http://recommendation.angazaelimu.com" }, 
+        { "key": "Access-Control-Allow-Origin", "value": "https://recommendation.angazaelimu.com" },
         {
           "key": "Access-Control-Allow-Methods",
           "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"

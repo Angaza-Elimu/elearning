@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const server = "http://recommendation.angazaelimu.com";
+const server = "https://recommendation.angazaelimu.com";
 
 export const api = axios.create({
   baseURL: server,
-  validateStatus: false
+  validateStatus: false,
 });
 
 api.interceptors.response.use(null, (error) => {
@@ -19,7 +19,7 @@ api.interceptors.response.use(null, (error) => {
   return Promise.reject(error.response);
 });
 
-const data =  {
+const data = {
   get: api.get,
   post: api.post,
   delete: api.delete,

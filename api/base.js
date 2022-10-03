@@ -3,11 +3,11 @@ import axios from "axios";
 // import Notification from "../components/Notification";
 // import { server } from "../config/server";
 
-const server = "http://staging.angazaelimu.com/api";
+const server = "https://staging.angazaelimu.com/api";
 
 export const api = axios.create({
   baseURL: server,
-  validateStatus: false
+  validateStatus: false,
 });
 
 api.interceptors.response.use(null, (error) => {
