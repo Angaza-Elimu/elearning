@@ -1,16 +1,18 @@
 import _ from "lodash";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
 import { getToken, validToken } from "../../api/auth";
 // import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
 import { answerRevisionQuestion, getRevisionQuestions, submitRevision } from "../../api/revision";
 import { getTopics } from "../../api/topics";
-import { Button, Header, Layout, QuizCardRevision } from "../../components";
+import { Button, Header, Layout, Notification, QuizCardRevision } from "../../components";
 
-export default function QuizPage({ questions, topic }) {
+export default function QuizPage({ questions, topic, subject_id }) {
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { query, ...router } = useRouter();
@@ -98,6 +100,16 @@ export default function QuizPage({ questions, topic }) {
     setStartTime(Date.now());
   }, []);
 
+  //no questions
+  useEffect(() => {
+    setLoading(true);
+    if (questions.length === 0) {
+      toast(<Notification type="info" message="No questions found." />);
+      return router.back();
+    }
+    setLoading(false);
+  }, [questions]);
+
   return loading ? null : (
     <Layout title={`Revision Quiz`}>
       <>
@@ -157,7 +169,11 @@ export default function QuizPage({ questions, topic }) {
               </div>
 
               <div className="text-lg mx-auto space-y-4 w-full flex flex-col items-center flex-1">
-                <Button name="Continue to next subtopic" />
+                <Link passHref href={`/revision/subjects/${subject_id}`}>
+                  <a className="cursor-pointer">
+                    <Button name="Continue to next subtopic" />
+                  </a>
+                </Link>
 
                 <p>
                   Want to try again?{" "}
@@ -192,18 +208,22 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
   let { data: topic } = await getTopics(class_id, subject_id, cookies.token);
 
   if (questions.length === 0) {
-    return {
-      redirect: {
-        destination: "/revision",
-        permanent: false,
-      },
-    };
+    // return {
+    //   redirect: {
+    //     destination: "/revision",
+    //     query: {
+    //       test: "test",
+    //     },
+    //     permanent: false,
+    //   },
+    // };
+    questions = [];
   }
 
   questions = _.shuffle(questions).slice(0, 50); //selects 50 random questions
   topic = topic.find((t) => t.id.toString() === topic_id);
 
   return {
-    props: { questions, topic },
+    props: { questions, topic, subject_id },
   };
 };
