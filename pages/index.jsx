@@ -6,11 +6,12 @@ import rectangle from "../public/images/Rectangle.svg";
 import doubleRectangle from "../public/images/DoubleRectangle.svg";
 import circles from "../public/images/Circles.svg";
 
-import { Button, Input, Title } from "../components";
+import { Button, Input, Notification, Title } from "../components";
 import { loginApi, loginWithToken, validToken } from "../api/auth";
 import { useState, useEffect } from "react";
 import { setToken, setProfile } from "../store/features/profileSlice";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -39,11 +40,11 @@ export default function LoginPage() {
         router.replace("/learn");
       } else {
         setDisableLoginButton(false);
-        alert(data.message);
+        toast(<Notification type="danger" message={data.message} />);
       }
     } catch (error) {
       setDisableLoginButton(false);
-      alert("Something went wrong, please try again.");
+      toast(<Notification type="error" message="Something went wrong, please try again." />);
     }
   };
 

@@ -1,6 +1,6 @@
 import axios from "axios";
-// import { toast } from "react-toastify";
-// import Notification from "../components/Notification";
+import { toast } from "react-toastify";
+import Notification from "../components/Notification";
 // import { server } from "../config/server";
 
 const server = "https://staging.angazaelimu.com/api";
@@ -15,7 +15,7 @@ api.interceptors.response.use(null, (error) => {
     error.response && error.response.status >= 400 && error.response.status < 500;
 
   if (!expectedError) {
-    // toast(<Notification message="An unexpected server error occurred." type="danger" />);
+    toast(<Notification message="An unexpected server error occurred." type="danger" />);
     console.log("An unexpected server error occured.");
   }
 

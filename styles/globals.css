@@ -34,6 +34,31 @@ select:not(:focus-within) ~ label {
   @apply transform duration-300 scale-100 cursor-pointer font-normal;
 }
 
+/* Toast notification customization */
+.Toastify__toast-container {
+  width: 450px !important;
+}
+
+.Toastify__close-button--light {
+  position: absolute !important;
+  z-index: 30 !important;
+  right: 10px !important;
+  top: 10px !important;
+}
+
+.Toastify__toast {
+  border-radius: 10px !important;
+  padding: 0px !important;
+  min-height: fit-content !important;
+}
+
+.Toastify__toast-body {
+  padding: 0px !important;
+  margin: 0 !important;
+  align-items: normal !important;
+  display: block !important;
+}
+
 /* image */
 /*.image {
   @apply mt-3;

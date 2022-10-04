@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { loginWithToken, signUp, validToken } from "../api/auth";
 import { ChevronLeft } from "../assets";
-import { Button, Header, Input, Title } from "../components";
+import { Button, Header, Input, Notification, Title } from "../components";
 import classes from "../config/classes";
 import logoWhite from "../public/images/logo-white.svg";
 import { setGrade } from "../store/features/gradeSlice";
@@ -66,7 +67,7 @@ export default function SignUpPage() {
       }
     } catch (error) {
       setSubmitting(false);
-      alert(error.message);
+      toast(<Notification message={error.message} type="info" />);
     }
   };
 
