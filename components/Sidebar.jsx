@@ -273,7 +273,7 @@ export default function Sidebar({ onHide }) {
                 </a>
               </Link>
               <div
-                className={`p-2.5 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative `}
+                className={`p-2.5 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative cursor-pointer `}
                 onClick={() => {
                   setOpenDropdown(false);
                   setOpenModal(true);
