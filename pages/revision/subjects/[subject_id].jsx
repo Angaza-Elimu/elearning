@@ -19,7 +19,7 @@ export default function RevisionTopicPage({ topics, subject }) {
   return loading ? null : (
     <Layout title={`Pick a topic in ${subject.subject_name}`}>
       <div>
-        <Breadcomb />
+        {/* <Breadcomb /> */}
 
         <Header text={`Now choose a topic in ${subject.subject_name}...`} className="mt-3" />
 

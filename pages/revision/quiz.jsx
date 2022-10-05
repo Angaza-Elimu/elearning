@@ -59,15 +59,17 @@ export default function QuizPage({ questions, topic, subject_id }) {
       answered = { ...answered, marked: 1 };
     }
 
-    await answerRevisionQuestion(getToken(), answered);
+    return answerRevisionQuestion(getToken(), answered);
   };
 
   const handleNextQuestion = async () => {
-    await submitQuizAnswer();
     setCurrentQuestionIndex((prev) => (prev < totalQuestion ? prev + 1 : prev));
+    await submitQuizAnswer();
   };
 
   const handleQuizFinished = async () => {
+    setIsQuizFinished(true);
+
     await submitQuizAnswer();
 
     let submit = {

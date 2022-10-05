@@ -12,7 +12,7 @@ export default function Layout({ children, title = "" }) {
     <>
       <Title name={title} />
 
-      <div className="relative h-screen">
+      <div className="relative">
         <div className={`h-screen flex w-full`}>
           {/* sidebar */}
           <div

@@ -120,18 +120,19 @@ export default function QuizCard({
           )}
 
           {/* next button */}
-          <div className="self-end mt-auto">
+          <div className="self-end mt-auto w-full md:w-auto">
             {showHint === null ? (
               <Button
                 type="SECONDARY"
                 name="Check answer"
-                className="text-primary-700"
+                className="text-primary-700 w-full md:w-auto"
                 onClick={() => setShowHint(true)}
                 disabled={!selectedAnswer}
               />
             ) : (
               <Button
                 disabled={!selectedAnswer && !providedAnswer}
+                className="w-full md:w-auto"
                 Component={
                   !lastQuestion
                     ? () => (
