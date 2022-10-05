@@ -9,7 +9,7 @@
 /*input styles */
 input:focus-within ~ label,
 input:not(:placeholder-shown) ~ label {
-  @apply transform scale-90 -translate-y-6;
+  @apply transform -translate-y-6;
 }
 
 input:focus-within ~ label {
@@ -17,13 +17,13 @@ input:focus-within ~ label {
 }
 
 input:not(:focus-within) ~ label {
-  @apply transform duration-300 scale-100 cursor-text font-normal;
+  @apply transform duration-300 scale-95 cursor-text font-normal;
 }
 
 /*select styles */
 select:focus-within ~ label,
 select:not(:placeholder-shown) ~ label {
-  @apply transform scale-90 -translate-y-6;
+  @apply transform -translate-y-6;
 }
 
 select:focus-within ~ label {
@@ -31,7 +31,7 @@ select:focus-within ~ label {
 }
 
 select:not(:focus-within) ~ label {
-  @apply transform duration-300 scale-100 cursor-pointer font-normal;
+  @apply transform duration-300 scale-95 cursor-pointer font-normal;
 }
 
 /* Toast notification customization */
