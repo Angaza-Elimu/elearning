@@ -85,7 +85,7 @@ export default function SignUpPage() {
           <div className="h-16 w-16 absolute top-20 left-20">
             <Image src={logoWhite} layout="fill" />
           </div>
-          <div className="flex flex-col mx-auto gap-5 h-full justify-center w-2/3">
+          <div className="flex flex-col mx-auto gap-5 justify-center w-2/3">
             <h2 className="font-bold text-5xl">Hi there ...</h2>
 
             <div className="text-base font-normal">
@@ -175,7 +175,7 @@ export default function SignUpPage() {
                   <select
                     name="learning_system"
                     id="select_level"
-                    className="block w-full focus:outline-none bg-transparent p-3 text-base text-shade-dark cursor-pointer"
+                    className="block w-full focus:outline-none bg-transparent p-2 md:p-3 text-base text-shade-dark cursor-pointer"
                     value={learning_system}
                     onChange={(e) => setLearningSystem(e.target.value)}
                   >
@@ -189,7 +189,7 @@ export default function SignUpPage() {
                   </select>
                   <label
                     htmlFor="select_level"
-                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none"
+                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none scale-90"
                   >
                     Select school level
                   </label>
@@ -199,7 +199,7 @@ export default function SignUpPage() {
                   <select
                     name="class"
                     id="class"
-                    className="block w-full focus:outline-none bg-transparent p-3 text-base text-shade-dark cursor-pointer"
+                    className="block w-full focus:outline-none bg-transparent p-2 md:p-3 text-base text-shade-dark cursor-pointer"
                     value={classId}
                     onChange={(e) => setClassId(e.target.value)}
                   >
@@ -214,7 +214,7 @@ export default function SignUpPage() {
                   </select>
                   <label
                     htmlFor="select_level"
-                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none"
+                    className="absolute top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium px-1 select-none scale-90"
                   >
                     Select class
                   </label>

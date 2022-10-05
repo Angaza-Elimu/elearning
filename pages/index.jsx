@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import rectangle from "../public/images/Rectangle.svg";
 import doubleRectangle from "../public/images/DoubleRectangle.svg";
-import circles from "../public/images/Circles.svg";
+import logoWhite from "../public/images/logo-white.svg";
 
-import { Button, Input, Notification, Title } from "../components";
+import { Button, Header, Input, Notification, Title } from "../components";
 import { loginApi, loginWithToken, validToken } from "../api/auth";
 import { useState, useEffect } from "react";
 import { setToken, setProfile } from "../store/features/profileSlice";
@@ -63,12 +63,12 @@ export default function LoginPage() {
     <>
       <Title name="Log In" />
 
-      <div className="grid grid-cols-12 h-screen bg-[#FBFBFB]">
+      <div className="grid grid-cols-12 h-screen bg-primary-c9 md:bg-[#FBFBFB] relative">
         <div className="md:col-span-5 md:flex items-center justify-center bg-primary-c9 text-shade-light relative hidden px-10">
-          {/* <div className="h-12 w-12 absolute top-48 left-20">
-            <Image src={doubleRectangle} layout="fill" />
-          </div> */}
-          <div className="flex flex-col mx-auto gap-5">
+          <div className="h-16 w-16 absolute top-20 left-20">
+            <Image src={logoWhite} layout="fill" />
+          </div>
+          <div className="flex flex-col mx-auto gap-5 justify-center">
             <h2 className="font-bold text-5xl">Welcome back!</h2>
 
             <div className="w-3/5">
@@ -78,33 +78,44 @@ export default function LoginPage() {
         </div>
 
         {/* login session */}
-        <div className="col-span-full md:col-span-7 p-5 flex items-center relative">
-          {/* <div className="h-12 w-12 absolute top-20 left-1/3">
-            <Image src={rectangle} layout="fill" />
-          </div> */}
-          {/* <div className="h-20 w-32 absolute bottom-10 right-20">
-            <Image src={circles} layout="fill" />
-          </div> */}
+        <div className="flex col-span-full mx-auto my-auto md:hidden w-4/5">
+          <div className="absolute top-4 left-4 h-10 w-10">
+            <Image src={logoWhite} layout="fill" />
+          </div>
+          <div className="flex flex-col text-shade-light text-center">
+            <h2 className="font-medium text-2xl">Welcome back!</h2>
 
-          <div className="mx-auto w-full md:max-w-md">
-            <p className="text-center mb-5 text-neutral-500">
-              Don't have an account?{" "}
+            <div className="text-base font-light">
+              <p>We love your consistency in learning with us. Sign in and keep studying.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-span-full md:col-span-7 p-5 flex items-center relative flex-col justify-between bg-[#FBFBFB] rounded-t-3xl gap-1 md:my-auto">
+          <div className="mb-5 flex flex-col gap-1.5">
+            <Header text="Sign in to your account" className="text-[1.45em]" />
+
+            <p className="text-center text-neutral-500 text-sm md:text-base">
+              Don’t have an account?{" "}
               <Link passHref href="/signup">
                 <a>
-                  <span className="text-primary-700 font-semibold cursor-pointer hover:underline">
+                  <span className="text-primary-700 font-semibold cursor-pointer hover:underline text-base">
                     Sign Up
                   </span>
                 </a>
               </Link>
             </p>
+          </div>
 
-            <div className="flex flex-col">
+          <div className="mx-auto w-full md:max-w-md flex flex-col justify-start flex-1">
+            <div className="flex flex-col gap-1 md:gap-4">
               <Input
                 label="Username"
                 name="Username"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
                 placeholder="johndoe"
+                required
               />
               <Input
                 label="Password"
@@ -113,9 +124,10 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 placeholder="● ● ● ● ● ● ●"
+                required
               />
 
-              {/* <p className="text-sm text-primary-700 -mt-1 cursor-pointer hover:underline">
+              {/* <p className="text-sm text-primary-700 -mt-1 md:-mt-3 cursor-pointer hover:underline">
                 Forgot Password?
               </p> */}
 
