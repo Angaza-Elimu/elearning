@@ -18,7 +18,7 @@ export default function _404Page() {
             <p className="text-lg text-center">
               Sorry, we can't seem to locate the page you're looking for.
             </p>
-            <Link href="/" replace>
+            <Link href="/learn" replace>
               <button className="rounded-lg text-shade-light bg-primary-600 px-5 w-fit py-3 mx-auto text-lg transition-all duration-200 hover:scale-105 ease-out hover:shadow-md">
                 Back to Home
               </button>
