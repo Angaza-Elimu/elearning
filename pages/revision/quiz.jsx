@@ -85,8 +85,6 @@ export default function QuizPage({ questions, topic, subject_id }) {
       total_time: Math.round((Date.now() - startTime) / 1000),
     };
 
-    setIsQuizFinished(true);
-
     // submit quiz
     await submitRevision(getToken(), submit);
   };
@@ -107,9 +105,8 @@ export default function QuizPage({ questions, topic, subject_id }) {
     setLoading(true);
     if (questions.length === 0) {
       toast(<Notification type="info" message="No questions found." />);
-      return router.back();
+      router.push(`/revision/subjects/${subject_id}`);
     }
-    setLoading(false);
   }, [questions]);
 
   return loading ? null : (
