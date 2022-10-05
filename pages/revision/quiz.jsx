@@ -106,6 +106,8 @@ export default function QuizPage({ questions, topic, subject_id }) {
     if (questions.length === 0) {
       toast(<Notification type="info" message="No questions found." />);
       router.push(`/revision/subjects/${subject_id}`);
+    } else {
+      setLoading(false);
     }
   }, [questions]);
 

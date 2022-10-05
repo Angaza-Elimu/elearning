@@ -64,28 +64,27 @@ export default function LoginPage() {
       <Title name="Log In" />
 
       <div className="grid grid-cols-12 h-screen bg-[#FBFBFB]">
-        <div className="md:col-span-5 md:flex items-center justify-center radial text-shade-light relative hidden">
-          <div className="h-12 w-12 absolute top-48 left-20">
+        <div className="md:col-span-5 md:flex items-center justify-center bg-primary-c9 text-shade-light relative hidden px-10">
+          {/* <div className="h-12 w-12 absolute top-48 left-20">
             <Image src={doubleRectangle} layout="fill" />
-          </div>
+          </div> */}
           <div className="flex flex-col mx-auto gap-5">
-            <h2 className="font-bold text-5xl">Log In</h2>
+            <h2 className="font-bold text-5xl">Welcome back!</h2>
 
-            <div className="font-medium">
-              <p>Hello, welcome back!</p>
-              <p className="font-normal">We're happy to see you again ...</p>
+            <div className="w-3/5">
+              <p>We love your consistency in learning with us. Sign in and keep studying.</p>
             </div>
           </div>
         </div>
 
         {/* login session */}
         <div className="col-span-full md:col-span-7 p-5 flex items-center relative">
-          <div className="h-12 w-12 absolute top-20 left-1/3">
+          {/* <div className="h-12 w-12 absolute top-20 left-1/3">
             <Image src={rectangle} layout="fill" />
-          </div>
-          <div className="h-20 w-32 absolute bottom-10 right-20">
+          </div> */}
+          {/* <div className="h-20 w-32 absolute bottom-10 right-20">
             <Image src={circles} layout="fill" />
-          </div>
+          </div> */}
 
           <div className="mx-auto w-full md:max-w-md">
             <p className="text-center mb-5 text-neutral-500">
@@ -113,7 +112,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 value={password}
-                placeholder="●●●●●●●"
+                placeholder="● ● ● ● ● ● ●"
               />
 
               {/* <p className="text-sm text-primary-700 -mt-1 cursor-pointer hover:underline">
@@ -122,8 +121,9 @@ export default function LoginPage() {
 
               <Button
                 name="Log In"
-                className="mt-3 text-shade-light"
+                className="mt-3 text-shade-light flex justify-center items-center flex-row-reverse"
                 onClick={handleLogin}
+                loading={disableLoginButton}
                 disabled={username.length === 0 || password.length === 0 || disableLoginButton}
               />
             </div>
