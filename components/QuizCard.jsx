@@ -131,7 +131,7 @@ export default function QuizCard({
               />
             ) : (
               <Button
-                disabled={!selectedAnswer && !providedAnswer}
+                disabled={!selectedAnswer}
                 className="w-full md:w-auto"
                 Component={
                   !lastQuestion

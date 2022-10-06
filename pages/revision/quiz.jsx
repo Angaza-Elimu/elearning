@@ -196,7 +196,7 @@ export default function QuizPage({ questions, topic, subject_id }) {
 
 export const getServerSideProps = async ({ req: { cookies }, query }) => {
   const { topic_id, subject_id } = query;
-  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade).grade.id;
+  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade.id;
 
   if (!topic_id || !subject_id) {
     return {

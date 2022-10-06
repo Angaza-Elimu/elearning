@@ -17,52 +17,53 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
   const [isQuizStarted, setIsQuizStarted] = useState(false);
   const [isQuizFinished, setIsQuizFinished] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [totalScore, setTotalScore] = useState(0)
+  const [totalScore, setTotalScore] = useState(0);
   const [loading, setLoading] = useState(true);
   const [payload, setPayload] = useState(null);
-  const [answers, setAnswers] = useState([])
-  const options = {1: 'option_a', 2: 'option_b', 3: 'option_c', 4: 'option_d'}
+  const [answers, setAnswers] = useState([]);
+  const options = { 1: "option_a", 2: "option_b", 3: "option_c", 4: "option_d" };
 
   const handleNext = (selectedAnswer) => {
-    const isCorrect = parseInt(selectedAnswer) === parseInt(diagnostic_questions[currentQuestion].answer);
-    if(isCorrect) {
-      score = totalScore + 1;
-      setTotalScore(score)
+    const isCorrect =
+      parseInt(selectedAnswer) === parseInt(diagnostic_questions[currentQuestion].answer);
+    if (isCorrect) {
+      let score = totalScore + 1;
+      setTotalScore(score);
     }
     const newQuestion = {
-      "id": diagnostic_questions[currentQuestion].id,
-      "subtopic_id": diagnostic_questions[currentQuestion].subtopic_id,
-      "subject_id": diagnostic_questions[currentQuestion].subject_id,
-      "created_at": diagnostic_questions[currentQuestion].created_at,
-      "question_level": diagnostic_questions[currentQuestion].question_level,
-      "marked": isCorrect ? 1 : 0
-    }
-    setAnswers((previous) => [...previous, newQuestion ])
-    setCurrentQuestion((prev) => (prev < totalQuestion ? prev + 1 : prev))
-  }
+      id: diagnostic_questions[currentQuestion].id,
+      subtopic_id: diagnostic_questions[currentQuestion].subtopic_id,
+      subject_id: diagnostic_questions[currentQuestion].subject_id,
+      created_at: diagnostic_questions[currentQuestion].created_at,
+      question_level: diagnostic_questions[currentQuestion].question_level,
+      marked: isCorrect ? 1 : 0,
+    };
+    setAnswers((previous) => [...previous, newQuestion]);
+    setCurrentQuestion((prev) => (prev < totalQuestion ? prev + 1 : prev));
+  };
 
   const handleFinish = () => {
     const payload = {
       topic_id,
       total_score: totalScore,
-      answers
-    }
-    setPayload(payload)
-    setIsQuizFinished(true)
-  }
+      answers,
+    };
+    setPayload(payload);
+    setIsQuizFinished(true);
+  };
 
   useEffect(() => {
     !validToken() ? router.push("/") : setLoading(false);
   }, []);
 
   useEffect(() => {
-    dispatch(setSubtopics(subtopics))
+    dispatch(setSubtopics(subtopics));
   }, [subtopics]);
 
   if (loading) return null;
 
   const Welcome = () => {
-    if(totalQuestion < 1) router.push(`/learn/topics/${topic_id}`);
+    if (totalQuestion < 1) router.push(`/learn/topics/${topic_id}`);
     return (
       <div className="max-w-7xl mx-auto my-auto flex flex-1 h-full">
         <div className="flex flex-col flex-wrap flex-1 justify-around">
@@ -89,8 +90,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
     );
   };
 
-  if (isQuizFinished)
-    return (<Recommendation payload={payload}/>)
+  if (isQuizFinished) return <Recommendation payload={payload} />;
 
   return (
     <Layout title={`Quiz`}>
@@ -105,7 +105,11 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
               `${diagnostic_questions[currentQuestion].option_c}`,
               `${diagnostic_questions[currentQuestion].option_d}`,
             ]}
-            correctAnswer={`${diagnostic_questions[currentQuestion][options[diagnostic_questions[currentQuestion].answer]]}`}
+            correctAnswer={`${
+              diagnostic_questions[currentQuestion][
+                options[diagnostic_questions[currentQuestion].answer]
+              ]
+            }`}
             currentQuestion={currentQuestion}
             id={currentQuestion}
             lastQuestion={currentQuestion === totalQuestion - 1}
@@ -127,19 +131,16 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
 export const getServerSideProps = async ({ req: { cookies }, params }) => {
   const [res1, res2] = await Promise.all([
     getSubtopics(cookies.topic_id, cookies.token),
-    getDiagnosticsQuestionsApi( cookies.token, cookies.topic_id)
-  ])
+    getDiagnosticsQuestionsApi(cookies.token, cookies.topic_id),
+  ]);
 
-  const [result1, result2] = await Promise.all([
-    res1.data,
-    res2.data
-  ])
+  const [result1, result2] = await Promise.all([res1.data, res2.data]);
   return {
     props: {
       diagnostic_questions: result2 ? result2.questions : [],
       topic_id: cookies.topic_id,
       subtopics: result1,
-      totalQuestion: result2.questions.length
+      totalQuestion: result2.questions.length,
     },
   };
 };

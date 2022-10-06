@@ -57,7 +57,7 @@ export default function RevisionTopicPage({ topics, subject }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies }, query }) => {
-  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade).grade.id;
+  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade.id;
 
   let { status, data: topics } = await getTopics(class_id, query.subject_id, cookies.token);
   let { data: subject } = await getSubjectsApi(cookies.token);
