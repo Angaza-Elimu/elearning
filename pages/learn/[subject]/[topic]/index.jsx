@@ -59,6 +59,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
     dispatch(setSubtopics(subtopics))
   }, [subtopics]);
 
+  if (loading) return null;
 
   const Welcome = () => {
     if(totalQuestion < 1) router.push(`/learn/topics/${topic_id}`);

@@ -56,7 +56,8 @@ export const getServerSideProps = async ({ req: { cookies } }) => {
   if (status !== 200) classes = [];
 
   //filter classes by the learning system from the cookies.
-  const { learning_system } = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile;
+  const learning_system =
+    JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile?.learning_system || null;
   classes = classes.filter((classes) => classes.learning_system === learning_system);
 
   return {
