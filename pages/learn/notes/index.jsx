@@ -25,7 +25,7 @@ export default function NotesPage() {
         <div>
           <Header text="You can choose our recommendations:" />
 
-          <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 max-w-6xl items-center gap-4 md:gap-7 flex-wrap mt-5">
             {recommendedTopics?.map((rt, index) => (
               <Link passHref href={`/learn/notes/subtopic/${rt.id.toString()}`} key={index}>
                 <div className="relative">
@@ -48,7 +48,7 @@ export default function NotesPage() {
           <div className="mt-16">
             <Header text="Or choose a subtopic you like:" />
 
-            <div className="grid grid-cols-3 max-w-6xl items-center gap-7 flex-wrap mt-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 max-w-6xl items-center gap-4 md:gap-7 flex-wrap mt-5">
               {otherTopics.map((ot) => (
                 <Link passHref href={`/learn/notes/subtopic/${ot.id}`} key={ot.id.toString()}>
                   <div className="relative">

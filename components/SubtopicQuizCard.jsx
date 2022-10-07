@@ -15,10 +15,10 @@ export default function SubtopicQuizCard({
   additional_notes,
   answer_no,
   showHint,
-  handleShowHint
+  handleShowHint,
 }) {
   const options = ["A", "B", "C", "D", "E", "F", "G", "H"]; //answer options
-  const answer = {1: "A", 2: "B", 3: "C", 4: "D"}
+  const answer = { 1: "A", 2: "B", 3: "C", 4: "D" };
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [selectedAnswerNumber, setSelectedAnswerNumber] = useState(null);
   // const [showHint, setShowHint] = useState(null);
@@ -27,7 +27,7 @@ export default function SubtopicQuizCard({
     <>
       <Header text={""} />
 
-      <div className="max-w-6xl mr-auto w-full h-full flex-1 select-none">
+      <div className="max-w-6xl mr-auto w-full h-full flex-1 select-none flex flex-col">
         <div className="">
           <div className="bg-neutral-800 h-1.5 rounded-md">
             <div
@@ -35,17 +35,19 @@ export default function SubtopicQuizCard({
               style={{ width: `${(currentQuestion / totalQuestion) * 100}%` }}
             />
           </div>
-         { currentQuestion && <p className="mt-1 text-neutral-500 font-medium text-sm">
-            <span className="text-lg font-semibold text-accent-600">{currentQuestion + 1}</span>/
-            {totalQuestion}
-          </p>}
+          {currentQuestion && (
+            <p className="mt-1 text-neutral-500 font-medium text-sm">
+              <span className="text-lg font-semibold text-accent-600">{currentQuestion + 1}</span>/
+              {totalQuestion}
+            </p>
+          )}
         </div>
 
-        <div className="rounded-lg py-5 px-10 relative w-full h-5/6 flex flex-col">
+        <div className="rounded-lg py-5 md:px-10 relative w-full flex flex-col flex-1 gap-2">
           {/* Question */}
           <div className="my-5">
             <div
-              className="font-semibold text-xl"
+              className="font-semibold text-xl md:prose-md prose-p:font-normal"
               dangerouslySetInnerHTML={{ __html: question }}
             ></div>
           </div>
@@ -72,7 +74,7 @@ export default function SubtopicQuizCard({
                 }`}
                 key={index}
                 onClick={() => {
-                  setSelectedAnswerNumber(index + 1)
+                  setSelectedAnswerNumber(index + 1);
                   !showHint && setSelectedAnswer(answer);
                 }}
               >
@@ -120,18 +122,19 @@ export default function SubtopicQuizCard({
           )}
 
           {/* next button */}
-          <div className="self-end mt-auto">
+          <div className="self-end mt-auto w-full md:w-auto">
             {showHint === null ? (
               <Button
                 type="SECONDARY"
                 name="Check answer"
-                className="text-primary-700"
+                className="text-primary-700 w-full md:w-auto"
                 onClick={() => handleShowHint(selectedAnswerNumber)}
                 disabled={!selectedAnswer}
               />
             ) : (
               <Button
                 disabled={!selectedAnswer}
+                className="w-full md:w-auto"
                 Component={
                   !lastQuestion
                     ? () => (

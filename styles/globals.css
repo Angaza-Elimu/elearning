@@ -67,7 +67,7 @@ select:not(:focus-within) ~ label {
 /*scrollbar*/
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 4px;
 }
 
 /* Track */
@@ -78,7 +78,7 @@ select:not(:focus-within) ~ label {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #cfd6db;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Handle on hover */
