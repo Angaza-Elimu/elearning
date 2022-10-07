@@ -8,10 +8,11 @@ import { getClassesApi } from "../api/classes";
 import { Title, GradeCard } from "../components";
 import logo from "../public/logo.svg";
 
-export default function WelcomePage({ classes }) {
+export default function WelcomePage({ classes: _classes }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { profile } = useSelector((state) => state.profile);
+  const classes = _classes.filter((c) => c.learning_system === profile?.learning_system);
 
   //route protection
   useEffect(() => {
@@ -56,9 +57,8 @@ export const getServerSideProps = async ({ req: { cookies } }) => {
   if (status !== 200) classes = [];
 
   //filter classes by the learning system from the cookies.
-  const learning_system =
-    JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile?.learning_system || null;
-  classes = classes.filter((classes) => classes.learning_system === learning_system);
+  // const learning_system = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile?.learning_system || null;
+  // classes = classes.filter((classes) => classes.learning_system === learning_system);
 
   return {
     props: { classes },
