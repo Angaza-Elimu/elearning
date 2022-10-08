@@ -14,11 +14,11 @@ export const gradeSlice = createSlice({
     },
   },
   // handles removing stored class for a logging out user
-  extraReducers(builder) {
-    builder.addCase(logout, (state) => {
-      state.grade = null;
-    });
-  },
+  // extraReducers(builder) {
+  //   builder.addCase(logout, (state) => {
+  //     state.grade = null;
+  //   });
+  // },
 });
 
 export const { setGrade } = gradeSlice.actions;

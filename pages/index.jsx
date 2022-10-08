@@ -18,7 +18,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [disableLoginButton, setDisableLoginButton] = useState(false);
-  const grade = useSelector((state) => state.grade.grade);
+  const { grade } = useSelector((state) => state.grade);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -35,9 +35,9 @@ export default function LoginPage() {
         dispatch(setToken(data.access_token));
         dispatch(setProfile(data.user));
 
-        if (!grade) return router.replace("/welcome");
+        if (grade.learning_system !== data.user?.learning_system) return router.replace("/welcome");
 
-        router.replace("/learn");
+        return router.replace("/learn");
       } else {
         setDisableLoginButton(false);
         toast(<Notification type="danger" message={data.message} />);
@@ -51,12 +51,6 @@ export default function LoginPage() {
   //redirects to learn if user is logged in
   useEffect(() => {
     validToken() ? router.push("/learn") : setLoading(false);
-    // !grade ? router.push("/welcome") : router.push("/learn");
-
-    // if (!validToken()) setLoading(false);
-    // // if (validToken() && grade) return router.push("/welcome");
-
-    // router.push("/learn");
   }, []);
 
   return loading ? null : (
