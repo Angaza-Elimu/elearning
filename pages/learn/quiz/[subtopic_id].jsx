@@ -52,7 +52,7 @@ export default function QuizPage({ initial_question }) {
   };
 
   const handleFinish = () => {
-    console.log(totalQuestion, totalQuestion);
+    // console.log(totalQuestion, totalQuestion);
     setShowHint(null);
     const total = (correctAnswer / totalQuestion) * 100;
     const payload = {

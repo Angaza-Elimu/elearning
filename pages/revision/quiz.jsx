@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getToken, validToken } from "../../api/auth";
 // import { getOpenEndedRevisionQuestions } from "../../api/openEndedQuestions";
 import { answerRevisionQuestion, getRevisionQuestions, submitRevision } from "../../api/revision";
-import { getTopics } from "../../api/topics";
+import { getPrimaryTopics, getTopics } from "../../api/topics";
 import { Button, Header, Layout, Notification, QuizCardRevision } from "../../components";
 
 export default function QuizPage({ questions, topic, subject_id }) {
@@ -23,7 +23,6 @@ export default function QuizPage({ questions, topic, subject_id }) {
   const { grade } = useSelector((state) => state.grade);
 
   const [correctlyAnswered, setCorrectlyAnswered] = useState(0);
-  const [score, setScore] = useState(0);
   // const [providedAnswer, setProvidedAnswer] = useState("");
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [uniqueQuizId, setUniquedQuizId] = useState("");
@@ -115,19 +114,6 @@ export default function QuizPage({ questions, topic, subject_id }) {
     <Layout title={`Revision Quiz`}>
       <>
         {!isQuizFinished ? (
-          // <QuizCard
-          //   openEndedAnswers
-          //   providedAnswer={providedAnswer}
-          //   setProvidedAnswer={setProvidedAnswer}
-          //   currentQuestion={currentQuestionIndex + 1}
-          //   id={currentQuestionIndex}
-          //   lastQuestion={currentQuestionIndex + 1 === totalQuestion}
-          //   onNextQuestion={() => handleNextQuestion()}
-          //   onQuizFinished={() => handleQuizFinished()}
-          //   question={questions[currentQuestionIndex]?.question}
-          //   totalQuestion={totalQuestion}
-          //   correctAnswer={questions[currentQuestionIndex]?.answer}
-          // />
           <QuizCardRevision
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -196,7 +182,8 @@ export default function QuizPage({ questions, topic, subject_id }) {
 
 export const getServerSideProps = async ({ req: { cookies }, query }) => {
   const { topic_id, subject_id } = query;
-  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade.id;
+  const grade = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade;
+  let topic;
 
   if (!topic_id || !subject_id) {
     return {
@@ -204,21 +191,22 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
     };
   }
 
-  // let { data: questions } = await getOpenEndedRevisionQuestions(cookies.token, topic_id);
   let { data: questions } = await getRevisionQuestions(cookies.token, topic_id, subject_id);
-  let { data: topic } = await getTopics(class_id, subject_id, cookies.token);
 
   if (questions.length === 0) {
-    // return {
-    //   redirect: {
-    //     destination: "/revision",
-    //     query: {
-    //       test: "test",
-    //     },
-    //     permanent: false,
-    //   },
-    // };
     questions = [];
+  }
+
+  if (grade.learning_system === "secondary") {
+    let { data: _topic } = await getTopics(grade.id, query.subject_id, cookies.token);
+    topic = _topic;
+  }
+
+  if (grade.learning_system === "primary") {
+    let {
+      data: { data: _topic },
+    } = await getPrimaryTopics(query.subject_id, cookies.token);
+    topic = _topic;
   }
 
   questions = _.shuffle(questions).slice(0, 50); //selects 50 random questions

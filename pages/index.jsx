@@ -35,7 +35,8 @@ export default function LoginPage() {
         dispatch(setToken(data.access_token));
         dispatch(setProfile(data.user));
 
-        if (grade.learning_system !== data.user?.learning_system) return router.replace("/welcome");
+        if (grade?.learning_system !== data.user?.learning_system)
+          return router.replace("/welcome");
 
         return router.replace("/learn");
       } else {
