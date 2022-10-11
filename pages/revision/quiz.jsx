@@ -128,6 +128,7 @@ export default function QuizPage({ questions, topic, subject_id }) {
             correctAnswer={answers[questions[currentQuestionIndex]?.answer - 1]}
             hints={answerHints}
             quizName={topic?.topic_name}
+            additionalNotes={questions[currentQuestionIndex]?.additional_notes}
           />
         ) : (
           <>

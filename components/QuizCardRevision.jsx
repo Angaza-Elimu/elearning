@@ -19,6 +19,7 @@ export default function QuizCardRevision({
   selectedAnswer,
   setSelectedAnswer,
   quizName = "",
+  additionalNotes,
 }) {
   const options = ["A", "B", "C", "D", "E", "F", "G", "H"]; //answer options
   // const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -127,7 +128,10 @@ export default function QuizCardRevision({
                 )}
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: hints[answers.indexOf(correctAnswer)],
+                    __html:
+                      hints[answers.indexOf(correctAnswer)] === null
+                        ? additionalNotes
+                        : hints[answers.indexOf(correctAnswer)],
                   }}
                 />
               </div>

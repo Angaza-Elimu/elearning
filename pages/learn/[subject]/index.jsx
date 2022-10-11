@@ -1,4 +1,3 @@
-import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getTopics } from "../../../api/topics";
@@ -24,7 +23,7 @@ export default function PickASubjectPage({ topics }) {
 
         <div className="max-w-7xl w-full mr-auto my-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10">
-            {_.orderBy(topics, "topic_name").map(({ id, topic_name, percentage = 0 }) => (
+            {topics.map(({ id, topic_name, percentage = 0 }) => (
               <Link
                 href={{
                   pathname: "/learn/[subject]/[topic]",
