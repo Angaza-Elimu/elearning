@@ -107,13 +107,24 @@ export default function QuizPage({ initial_question }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies }, params }) => {
+  if (
+    cookies["persist%3Aroot"] === undefined ||
+    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
   let { status, data: diagnostic_questions } = await getDiagnosticsQuestionsApi(
     cookies.token,
     cookies.topic_id
   );
   if (status !== 200) diagnostic_questions = [];
   let question = null;
-  if (diagnostic_questions?.questions.length > 0) {
+  if (diagnostic_questions?.questions?.length > 0) {
     const questions = diagnostic_questions.questions.filter(
       (el) => parseInt(el.subtopic_id) === parseInt(params.subtopic_id)
     );

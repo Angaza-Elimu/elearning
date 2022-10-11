@@ -129,6 +129,17 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
 }
 
 export const getServerSideProps = async ({ req: { cookies }, params }) => {
+  if (
+    cookies["persist%3Aroot"] === undefined ||
+    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
   const [res1, res2] = await Promise.all([
     getSubtopics(cookies.topic_id, cookies.token),
     getDiagnosticsQuestionsApi(cookies.token, cookies.topic_id),

@@ -35,6 +35,17 @@ export default function NotePage({ note, topic_id, subtopic_id }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies }, params }) => {
+  if (
+    cookies["persist%3Aroot"] === undefined ||
+    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
   let { status, data: note } = await getSubtopicNotes(cookies.token, params.subtopic_id);
   if (status !== 200) note = null;
   return {

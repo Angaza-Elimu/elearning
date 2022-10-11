@@ -48,11 +48,37 @@ export default function PickASubjectPage({ topics }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
-  // const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).profile).profile.class;
-  const class_id = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade.id;
+  if (
+    cookies["persist%3Aroot"] === undefined ||
+    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
 
-  const { status, data: topics } = await getTopics(class_id, cookies.subject_id, cookies.token);
-  if (status !== 200) topics = [];
+  const grade = JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade;
+
+  let statusGlobal, topics;
+
+  if (grade.learning_system === "secondary") {
+    let { status, data: _topics } = await getTopics(grade.id, cookies.subject_id, cookies.token);
+    statusGlobal = status;
+    topics = _topics;
+  }
+
+  if (grade.learning_system === "primary") {
+    let {
+      status,
+      data: { data: _topics },
+    } = await getPrimaryTopics(cookies.subject_id, cookies.token);
+    statusGlobal = status;
+    topics = _topics;
+  }
+
+  if (statusGlobal !== 200) topics = [];
 
   return {
     props: { topics },

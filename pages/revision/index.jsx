@@ -57,6 +57,17 @@ export default function RevisionPage({ subjects }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
+  if (
+    cookies["persist%3Aroot"] === undefined ||
+    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
   let { data: subjects, status } = await getSubjectsApi(cookies.token);
 
   if (status !== 200) subjects = [];

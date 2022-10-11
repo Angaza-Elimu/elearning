@@ -73,3 +73,20 @@ export default function NotesPage() {
     </Layout>
   );
 }
+
+export const getServerSideProps = async ({ req: { cookies }, query }) => {
+  if (
+    cookies["persist%3Aroot"] === undefined ||
+    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
