@@ -52,17 +52,6 @@ export default function WelcomePage({ classes: _classes }) {
 }
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
-  if (
-    cookies["persist%3Aroot"] === undefined ||
-    !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
-  ) {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-
   let { data: classes, status } = await getClassesApi(cookies.token);
 
   if (status !== 200) classes = [];
