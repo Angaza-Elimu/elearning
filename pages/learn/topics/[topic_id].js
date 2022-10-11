@@ -13,7 +13,7 @@ export default function PickASubtopicPage({ subtopics }) {
         <Header text={`Nice! Now choose a subtopic you love...`} className="mt-3" />
 
         <div className="max-w-7xl w-full mr-auto my-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
             {_.orderBy(subtopics, "topic_name").map(({ id, subtopic_name, percentage = 0 }) => (
               <Link href={`/learn/notes/subtopic/${id}`} key={id.toString()} passHref>
                 <a onClick={() => Cookies.set("subtopic_id", id)}>
@@ -39,7 +39,7 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
       },
     };
   }
-
+  console.log(query.topic_id);
   const { status, data: subtopics } = await getSubtopics(cookies.topic_id, cookies.token);
   if (status !== 200) subtopics = [];
 

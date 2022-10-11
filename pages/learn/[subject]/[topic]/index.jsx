@@ -64,6 +64,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
 
   const Welcome = () => {
     if (totalQuestion < 1) router.push(`/learn/topics/${topic_id}`);
+
     return (
       <div className="max-w-7xl mx-auto my-auto flex flex-1 h-full">
         <div className="flex flex-col flex-wrap flex-1 justify-around">

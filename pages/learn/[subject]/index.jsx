@@ -22,7 +22,7 @@ export default function PickASubjectPage({ topics }) {
         />
 
         <div className="max-w-7xl w-full mr-auto my-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
             {topics.map(({ id, topic_name, percentage = 0 }) => (
               <Link
                 href={{
@@ -63,20 +63,9 @@ export const getServerSideProps = async ({ req: { cookies } }) => {
 
   let statusGlobal, topics;
 
-  if (grade.learning_system === "secondary") {
-    let { status, data: _topics } = await getTopics(grade.id, cookies.subject_id, cookies.token);
-    statusGlobal = status;
-    topics = _topics;
-  }
-
-  if (grade.learning_system === "primary") {
-    let {
-      status,
-      data: { data: _topics },
-    } = await getPrimaryTopics(cookies.subject_id, cookies.token);
-    statusGlobal = status;
-    topics = _topics;
-  }
+  let { status, data: _topics } = await getTopics(grade.id, cookies.subject_id, cookies.token);
+  statusGlobal = status;
+  topics = _topics;
 
   if (statusGlobal !== 200) topics = [];
 
