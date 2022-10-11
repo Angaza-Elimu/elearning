@@ -49,7 +49,6 @@ export default function SignUpPage() {
     try {
       const { data, status } = await signUp(registrationData);
 
-      console.log(status);
       if (status === 201) {
         loginWithToken(data.login_data.access_token);
         dispatch(setToken(data.login_data.access_token));

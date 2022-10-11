@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getTopics } from "../../../api/topics";
+import { getPrimaryTopics, getTopics } from "../../../api/topics";
 import Cookies from "js-cookie";
 import { Breadcomb, Header, Layout, LearnCard } from "../../../components";
 

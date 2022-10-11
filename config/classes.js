@@ -1,3 +1,5 @@
+//used in the signup page since /getClasses endpoint is a protected route.
+
 export default () => {
   return [
     {
