@@ -82,7 +82,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
             <Button
               className="md:w-1/3 mt-5 mx-auto"
               name="Start Quiz"
-              disabled={diagnostic_questions.length < 1}
+              disabled={diagnostic_questions && diagnostic_questions.length < 1}
               onClick={setIsQuizStarted}
             />
           </div>
@@ -98,7 +98,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
       <>
         <Breadcomb />
 
-        {diagnostic_questions.length > 0 && isQuizStarted && !isQuizFinished ? (
+        {diagnostic_questions && diagnostic_questions.length > 0 && isQuizStarted && !isQuizFinished ? (
           <QuizCard
             answers={[
               `${diagnostic_questions[currentQuestion].option_a}`,
@@ -120,6 +120,7 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
             totalQuestion={totalQuestion}
             additional_notes={diagnostic_questions[currentQuestion].additional_notes}
             answer_no={diagnostic_questions[currentQuestion].answer}
+            type="recommend"
           />
         ) : (
           Welcome()

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 export default function Page40() {
   const score = useSelector((state) => state.quiz.score);
+  const profile = useSelector((state) => state.profile.profile)
   const topic_id = Cookies.get('topic_id')
   const subtopic_id = Cookies.get('subtopic_id')
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function Page40() {
     <Layout>
       <Breadcomb />
 
-      <Header text="You are progressing on well Alice" />
+      <Header text={`You are progressing on well ${profile.firstname}`} />
 
       <div className="p-6 py-8 rounded-lg bg-shade-light w-full flex flex-col items-center gap-10 flex-1 mb-10">
         <h2 className="font-bold text-center text-2xl my-6">Quiz outcome</h2>
