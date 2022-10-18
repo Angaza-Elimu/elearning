@@ -14,12 +14,32 @@ export default function QuizCard({
   correctAnswer,
   additional_notes,
   answer_no,
+  updateScore,
+  type
 }) {
   const options = ["A", "B", "C", "D", "E", "F", "G", "H"]; //answer options
   const answer = { 1: "A", 2: "B", 3: "C", 4: "D" };
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [selectedAnswerNumber, setSelectedAnswerNumber] = useState(null);
   const [showHint, setShowHint] = useState(null);
+
+
+  const handleSelectedAnswerNumber = (answerNumber) => {
+    setSelectedAnswerNumber(answerNumber)
+    if(type === 'quiz') {
+      updateScore(answerNumber);
+    }
+  }
+
+  const handleUpdateScore = () => {
+    if(!lastQuestion) {
+      setSelectedAnswer("");
+      onNextQuestion(selectedAnswerNumber);
+      setShowHint(null);
+    } else {
+      onQuizFinished()
+    }
+  }
 
   return (
     <>
@@ -72,7 +92,7 @@ export default function QuizCard({
                 }`}
                 key={index}
                 onClick={() => {
-                  setSelectedAnswerNumber(index + 1);
+                  handleSelectedAnswerNumber(index + 1);
                   !showHint && setSelectedAnswer(answer);
                 }}
               >
@@ -141,15 +161,7 @@ export default function QuizCard({
                     : () => null
                 }
                 name={lastQuestion ? "Finish quiz" : "Next"}
-                onClick={
-                  !lastQuestion
-                    ? () => {
-                        setSelectedAnswer("");
-                        onNextQuestion(selectedAnswerNumber);
-                        setShowHint(null);
-                      }
-                    : () => onQuizFinished()
-                }
+                onClick={handleUpdateScore}
               />
             )}
           </div>

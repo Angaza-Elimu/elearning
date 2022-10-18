@@ -10,6 +10,7 @@ import SubtopicQuizCard from "../../../components/SubtopicQuizCard";
 
 export default function QuizPage({ initial_question }) {
   const router = useRouter();
+  const { query } = useRouter();
   const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [correctAnswer, setCorrectAnswer] = useState(0);
@@ -46,13 +47,16 @@ export default function QuizPage({ initial_question }) {
       if (current_question.length > 0) {
         setCurrentQuestion(current_question[0]);
       } else {
+        console.log(totalQuestion);
+        if(totalQuestion <= 2) {
+          return router.push( `/learn/supplementry/${query.subtopic_id}`);
+        }
         setLastQuestion(true);
       }
     });
   };
 
   const handleFinish = () => {
-    // console.log(totalQuestion, totalQuestion);
     setShowHint(null);
     const total = (correctAnswer / totalQuestion) * 100;
     const payload = {
@@ -123,6 +127,15 @@ export const getServerSideProps = async ({ req: { cookies }, params }) => {
     cookies.topic_id
   );
   if (status !== 200) diagnostic_questions = [];
+
+  if(status === 200 && diagnostic_questions.questions.length < 1){
+    return {
+      redirect: {
+        destination: `/learn/supplementry/${params.subtopic_id}`,
+      },
+    };
+  }
+
   let question = null;
   if (diagnostic_questions?.questions?.length > 0) {
     const questions = diagnostic_questions.questions.filter(
