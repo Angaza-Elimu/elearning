@@ -3,7 +3,14 @@ import { useRef, Fragment } from "react";
 
 import Spinner from "./Spinner";
 
-export default function Modal({ children, isOpen, loading = false, subtitle, title }) {
+export default function Modal({
+  children,
+  isOpen,
+  loading = false,
+  onClose, //? pass onClose to enable you close the modal on esc key press or outside click
+  subtitle,
+  title,
+}) {
   const loadingRef = useRef(null);
 
   return (
@@ -11,7 +18,7 @@ export default function Modal({ children, isOpen, loading = false, subtitle, tit
       <Dialog
         as="div"
         className="relative z-50"
-        onClose={() => null}
+        onClose={onClose ? onClose : () => null}
         initialFocus={loading ? loadingRef : null}
       >
         <Transition.Child
@@ -37,7 +44,7 @@ export default function Modal({ children, isOpen, loading = false, subtitle, tit
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-shade-light p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-[#FBFBFB] p-4 md:p-6 text-left align-middle shadow-xl transition-all">
                 {loading && (
                   <p className="mx-auto my-2 mb-8 animate-spin-slow h-12 w-12">
                     <Spinner className="stroke-primary-700 fill-primary-700" />
@@ -47,13 +54,15 @@ export default function Modal({ children, isOpen, loading = false, subtitle, tit
 
                 <Dialog.Title
                   as="h3"
-                  className="text-3xl font-bold text-center leading-6 text-shade-dark"
+                  className="text-2xl md:text-3xl font-bold text-center leading-6 text-shade-dark"
                   ref={loadingRef}
                 >
                   {title}
                 </Dialog.Title>
                 <div className="mt-2 w-10/12 mx-auto">
-                  <p className="my-5 text-neutral-500 text-center">{subtitle}</p>
+                  <p className="my-5 text-neutral-500 text-center text-sm md:text-base">
+                    {subtitle}
+                  </p>
                   {!loading && children}
                 </div>
               </Dialog.Panel>

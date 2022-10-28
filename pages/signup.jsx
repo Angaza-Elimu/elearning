@@ -170,7 +170,7 @@ export default function SignUpPage() {
                   required
                 />
 
-                <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
+                <div className="border border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-3">
                   <select
                     name="learning_system"
                     id="select_level"
@@ -194,7 +194,7 @@ export default function SignUpPage() {
                   </label>
                 </div>
 
-                <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
+                <div className="border border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-3">
                   <select
                     name="class"
                     id="class"
