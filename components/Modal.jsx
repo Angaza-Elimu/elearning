@@ -44,7 +44,7 @@ export default function Modal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-[#FBFBFB] p-4 md:p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-[#FBFBFB] p-5 md:p-6 text-left align-middle shadow-xl transition-all">
                 {loading && (
                   <p className="mx-auto my-2 mb-8 animate-spin-slow h-12 w-12">
                     <Spinner className="stroke-primary-700 fill-primary-700" />
@@ -54,13 +54,13 @@ export default function Modal({
 
                 <Dialog.Title
                   as="h3"
-                  className="text-2xl md:text-3xl font-bold text-center leading-6 text-shade-dark"
+                  className="text-2xl md:text-3xl font-medium md:font-bold text-center leading-6 text-shade-dark"
                   ref={loadingRef}
                 >
                   {title}
                 </Dialog.Title>
-                <div className="mt-2 w-10/12 mx-auto">
-                  <p className="my-5 text-neutral-500 text-center text-sm md:text-base">
+                <div className="mt-2 md:w-10/12 mx-auto">
+                  <p className="md:my-5 text-neutral-500 text-center text-sm md:text-base">
                     {subtitle}
                   </p>
                   {!loading && children}

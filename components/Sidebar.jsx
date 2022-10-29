@@ -192,7 +192,7 @@ export default function Sidebar({ onHide }) {
           <div className="relative h-8 w-8">
             <Image src="/logo.svg" layout="fill" />
           </div>
-          <div className="ml-auto relative flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-3">
             <Button
               className="w-full p-2 !py-1 flex gap-2 !pr-1"
               name={selectedGrade?.class_name}
@@ -212,7 +212,7 @@ export default function Sidebar({ onHide }) {
               )}
             />
             {showGrades && (
-              <div className="absolute top-11 w-44 overflow-hidden shadow-2xl rounded-lg">
+              <div className="absolute right-1 top-11 w-44 overflow-hidden shadow-2xl rounded-lg">
                 <div className="bg-shade-light flex flex-col gap-2 text-lg font-medium py-2 ">
                   {grades.map(({ class_name, id }) => (
                     <div
@@ -245,7 +245,7 @@ export default function Sidebar({ onHide }) {
           </div>
 
           {openDropdown && (
-            <div className="flex flex-col absolute top-11 right-0 rounded-lg shadow-lg bg-shade-light overflow-hidden w-80">
+            <div className="flex flex-col absolute top-11 right-1 rounded-lg shadow-lg bg-shade-light overflow-hidden w-80">
               {Object.values(navs(profile?.learning_system)).map((nav, i) => (
                 <Link href={nav.url} passHref key={i}>
                   <a
@@ -260,7 +260,7 @@ export default function Sidebar({ onHide }) {
                   </a>
                 </Link>
               ))}
-              <Link href="/wip/settings">
+              <Link href="/settings">
                 <a
                   className={`p-2.5 hover:bg-primary-900 hover:text-primary-600 duration-200 transition-all ease-out text-lg relative `}
                   onClick={() => setOpenDropdown(false)}

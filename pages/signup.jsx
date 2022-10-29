@@ -174,7 +174,7 @@ export default function SignUpPage() {
                   <select
                     name="learning_system"
                     id="select_level"
-                    className="block w-full focus:outline-none bg-transparent p-2 md:p-3 text-base text-shade-dark cursor-pointer"
+                    className="block w-full focus:outline-none bg-transparent p-3 text-base text-shade-dark cursor-pointer"
                     value={learning_system}
                     onChange={(e) => setLearningSystem(e.target.value)}
                   >
@@ -198,7 +198,7 @@ export default function SignUpPage() {
                   <select
                     name="class"
                     id="class"
-                    className="block w-full focus:outline-none bg-transparent p-2 md:p-3 text-base text-shade-dark cursor-pointer"
+                    className="block w-full focus:outline-none bg-transparent p-3 text-base text-shade-dark cursor-pointer"
                     value={classId}
                     onChange={(e) => setClassId(e.target.value)}
                   >

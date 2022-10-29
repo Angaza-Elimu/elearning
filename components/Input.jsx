@@ -31,7 +31,7 @@ export default function Input({
   return (
     <div className="border border-neutral-700 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-3">
       <input
-        className="block w-full appearance-none focus:outline-none bg-transparent p-2 md:p-3 text-base placeholder-shown:text-right focus:text-left"
+        className="block w-full appearance-none focus:outline-none bg-transparent p-2 md:p-3 text-lg md:text-base placeholder-shown:text-right focus:text-left"
         id={label.toLowerCase().trim().split(" ").join("")}
         name={label.toLowerCase().trim().split(" ").join("")}
         onChange={onChange}
