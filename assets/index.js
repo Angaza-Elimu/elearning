@@ -3,6 +3,7 @@ import AnswerWrongTick from "./AnswerWrongTick";
 import ArrowLeft from "./ArrowLeft";
 import AskATeacher from "./AskATeacher";
 import BubbleVector from "./BubbleVector";
+import Camera from "./Camera";
 import ChevronLeft from "./ChevronLeft";
 import Close from "./Close";
 import Dashboard from "./Dashboard";
@@ -24,6 +25,7 @@ export {
   ArrowLeft,
   AskATeacher,
   BubbleVector,
+  Camera,
   ChevronLeft,
   Close,
   Dashboard,

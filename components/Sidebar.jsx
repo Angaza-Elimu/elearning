@@ -40,6 +40,17 @@ export default function Sidebar({ onHide }) {
     return setVisible(name);
   };
 
+  const handleLogout = () => {
+    setOpenModal(false);
+    try {
+      logoutApi(token);
+      logout();
+      dispatch(logoutAction());
+
+      router.push("/");
+    } catch (error) {}
+  };
+
   useEffect(() => {
     if (pathname.split("/").length >= 2)
       toggleVisibility(
@@ -55,17 +66,6 @@ export default function Sidebar({ onHide }) {
       setGrades(classes);
     })();
   }, []);
-
-  const handleLogout = () => {
-    setOpenModal(false);
-    try {
-      logoutApi(token);
-      logout();
-      dispatch(logoutAction());
-
-      router.push("/");
-    } catch (error) {}
-  };
 
   return (
     <>
