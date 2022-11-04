@@ -61,6 +61,8 @@ export default function LoginPage() {
     try {
       const { data, status } = await resetByPhone(resetPhoneNumber);
       if (status === 200) {
+        if (!data?.success) return toast(<Notification type="info" message={data.message} />);
+
         toast(<Notification type="success" message={data.message} />);
         return setChangePasswordModal(true);
       }
@@ -70,6 +72,30 @@ export default function LoginPage() {
       setSubmitting(false);
     }
   };
+
+  const handleResetPassword = async () => {
+    setSubmitting(true);
+    try {
+      const { data, status } = await changePassword(resetCode, resetPhoneNumber, newPassword);
+
+      if (status !== 200) throw new Error();
+      if (!data?.success) return toast(<Notification type="error" message={data.message} />);
+
+      setOpenModal(false);
+      toast(<Notification type="success" message="Password changed successfully." />);
+
+      setChangePasswordModal(false);
+      setResetPhoneNumber("");
+      setResetCode("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    } catch (error) {
+      toast(<Notification type="error" message="Something went wrong, please try again." />);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleOpenPasswordResetModal = () => {
     //Opens modal from the input of phone number modal with no input
     setChangePasswordModal(false);

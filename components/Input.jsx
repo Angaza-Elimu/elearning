@@ -9,6 +9,7 @@ export default function Input({
   type = "text",
   onChange,
   placeholder,
+  labelBackground,
   ...others
 }) {
   const [visible, setVisible] = useState(false);
@@ -49,7 +50,9 @@ export default function Input({
       />
       <label
         htmlFor={label.toLowerCase().trim().split(" ").join("")}
-        className="absolute scale-90 top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium md:px-1 select-none"
+        className={`absolute scale-90 top-2.5 left-3 duration-300 origin-0 md:text-lg text-neutral-500 font-medium md:px-1 select-none ${
+          labelBackground ? labelBackground : "bg-[#FBFBFB]"
+        }`}
       >
         {label}
       </label>

@@ -36,4 +36,25 @@ const validToken = (token) => {
 
 const signUp = async (data) => api.post("/auth/signup", { ...data });
 
-export { getToken, loginApi, logoutApi, loginWithToken, logout, validToken, signUp };
+//auth/resetByPhone
+const resetByPhone = async (phoneNumber) => api.post("/auth/resetByPhone", { phone: phoneNumber });
+
+//auth/changePassword
+const changePassword = async (resetCode, phone, newPassword) =>
+  api.post("/auth/changePassword", {
+    reset_code: resetCode,
+    phone,
+    password: newPassword,
+  });
+
+export {
+  changePassword,
+  getToken,
+  loginApi,
+  logoutApi,
+  loginWithToken,
+  logout,
+  validToken,
+  resetByPhone,
+  signUp,
+};
