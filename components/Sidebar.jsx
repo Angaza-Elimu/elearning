@@ -61,9 +61,11 @@ export default function Sidebar({ onHide }) {
   //get all classes based on the user's learning system
   useEffect(() => {
     (async function () {
-      let { data: classes } = await getClassesApi(token);
-      classes = classes.filter((grade) => grade.learning_system === profile?.learning_system);
-      setGrades(classes);
+      try {
+        let { data: classes } = await getClassesApi(token);
+        classes = classes.filter((grade) => grade.learning_system === profile?.learning_system);
+        setGrades(classes);
+      } catch (error) {}
     })();
   }, []);
 

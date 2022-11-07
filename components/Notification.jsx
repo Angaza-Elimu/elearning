@@ -4,27 +4,22 @@ export default function Notification({ message, type }) {
 
   switch (type?.toLowerCase()) {
     case "success":
-      title = "";
       className = "bg-secondary-600/70 ";
       break;
 
     case "info":
-      title = "";
       className = "bg-primary-600/70 ";
       break;
 
     case "warning":
-      title = "";
       className = "bg-alerts-warning/70 ";
       break;
 
     case "danger":
-      title = "";
       className = "bg-alerts-danger2/70 ";
       break;
 
     default:
-      title = "";
       className = "bg-primary-600/70 ";
       break;
   }

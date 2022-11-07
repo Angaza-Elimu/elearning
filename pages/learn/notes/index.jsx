@@ -3,10 +3,14 @@ import { GreenTick } from "../../../assets";
 import { Breadcomb, Button, Header, Layout } from "../../../components";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { validToken } from "../../../api/auth";
+import { useRouter } from "next/router";
 
 export default function NotesPage() {
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const recommendedTopics = useSelector((state) => state.recommendation.recommendations);
-
   const subtopics = useSelector((state) => state.subtopics.subtopics);
 
   const invalid = recommendedTopics?.map((el) => el.id);
@@ -17,7 +21,11 @@ export default function NotesPage() {
     Cookies.set("subtopic_id", id);
   };
 
-  return (
+  useEffect(() => {
+    !validToken() ? router.push("/") : setLoading(false);
+  }, []);
+
+  return loading ? null : (
     <Layout>
       <Breadcomb />
 

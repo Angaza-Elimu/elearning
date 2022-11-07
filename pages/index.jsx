@@ -30,9 +30,8 @@ export default function LoginPage() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async () => {
     setDisableLoginButton(true);
-    e.preventDefault();
 
     try {
       const { data, status } = await loginApi(username, password);
@@ -178,6 +177,7 @@ export default function LoginPage() {
                 value={password}
                 placeholder="••••••••"
                 required
+                onKeyUp={(e) => e.key === "Enter" && handleLogin()}
               />
 
               <p
@@ -220,6 +220,7 @@ export default function LoginPage() {
               type="tel"
               value={resetPhoneNumber}
               onChange={(e) => setResetPhoneNumber(e.target.value)}
+              onKeyUp={(e) => e.key === "Enter" && sendResetCodeToPhone()}
             />
 
             <div className="flex flex-row justify-between items-center gap-5 pt-8">

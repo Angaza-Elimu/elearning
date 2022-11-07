@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import api from "./base";
 
 const tokenKey = "token";
+const authorization = (token) => "Bearer " + token;
 
 const loginApi = async (username, password) => api.post("/auth/login", { username, password });
 
@@ -47,6 +48,18 @@ const changePassword = async (resetCode, phone, newPassword) =>
     password: newPassword,
   });
 
+//change password for an already logged on user
+const newPassword = async ({ confirm_password, new_password, old_password }, token) =>
+  api.post(
+    "/newPassword",
+    { confirm_password, new_password, old_password },
+    {
+      headers: {
+        Authorization: authorization(token),
+      },
+    }
+  );
+
 export {
   changePassword,
   getToken,
@@ -57,4 +70,5 @@ export {
   validToken,
   resetByPhone,
   signUp,
+  newPassword,
 };

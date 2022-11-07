@@ -60,9 +60,9 @@ export default function Modal({
                   {title}
                 </Dialog.Title>
                 <div className="mt-2 md:w-10/12 mx-auto">
-                  <p className="md:my-5 text-neutral-500 text-center text-sm md:text-base">
+                  <div className="md:my-5 text-neutral-500 text-center text-sm md:text-base">
                     {subtitle}
-                  </p>
+                  </div>
                   {!loading && children}
                 </div>
               </Dialog.Panel>

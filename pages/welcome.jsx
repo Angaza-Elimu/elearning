@@ -51,7 +51,6 @@ export default function WelcomePage({ classes: _classes }) {
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
   let { data: classes, status } = await getClassesApi(cookies.token);
-
   if (status !== 200) classes = [];
 
   return {

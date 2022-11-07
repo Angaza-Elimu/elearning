@@ -3,9 +3,19 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { Breadcomb, Header, Layout, LearnCard } from "../../../components";
 import { getSubtopics } from "../../../api/subtopics";
+import { useEffect, useState } from "react";
+import { validToken } from "../../../api/auth";
+import { useRouter } from "next/router";
 
 export default function PickASubtopicPage({ subtopics }) {
-  return (
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    !validToken() ? router.push("/") : setLoading(false);
+  }, []);
+
+  return loading ? null : (
     <Layout title={`Pick a Subtopic`}>
       <div>
         <Breadcomb />
@@ -28,7 +38,7 @@ export default function PickASubtopicPage({ subtopics }) {
   );
 }
 
-export const getServerSideProps = async ({ req: { cookies }, query }) => {
+export const getServerSideProps = async ({ req: { cookies } }) => {
   if (
     cookies["persist%3Aroot"] === undefined ||
     !JSON.parse(JSON.parse(cookies["persist%3Aroot"]).grade)?.grade
@@ -39,8 +49,8 @@ export const getServerSideProps = async ({ req: { cookies }, query }) => {
       },
     };
   }
-  console.log(query.topic_id);
-  const { status, data: subtopics } = await getSubtopics(cookies.topic_id, cookies.token);
+
+  let { status, data: subtopics } = await getSubtopics(cookies.topic_id, cookies.token);
   if (status !== 200) subtopics = [];
 
   return {
