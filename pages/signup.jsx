@@ -40,7 +40,7 @@ export default function SignUpPage() {
       username,
       password,
       phone,
-      email,
+      // email,
       user_type: "student",
       learning_system,
       class: classId,
@@ -242,14 +242,14 @@ export default function SignUpPage() {
               </div>
             ) : (
               <div className="flex flex-col gap-1 md:gap-4">
-                <Input
+                {/* <Input
                   label="Email"
                   name="email"
                   type="email"
                   placeholder="example@example.com"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                />
+                /> */}
                 <Input
                   label="Phone Number"
                   name="phone_number"
@@ -288,10 +288,8 @@ export default function SignUpPage() {
                     onClick={handleCreateAccount}
                     loading={submitting}
                     disabled={
-                      email.length === 0 ||
-                      phone.length === 0 ||
-                      password !== confirmPassword ||
-                      submitting
+                      // email.length === 0 ||
+                      phone.length === 0 || password !== confirmPassword || submitting
                     }
                   />
                   <Button
