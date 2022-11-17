@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import { validToken, newPassword as newPasswordApi } from "../api/auth";
-import { user as userApi } from "../api/user";
+import { user as userApi, updateData as updateDataApi } from "../api/user";
 import { Camera, avatar } from "../assets";
 import { Button, Header, Input, Layout, Modal, Notification } from "../components";
 import authGuard from "../util/authGuard";
@@ -14,9 +14,11 @@ export default function SettingsPage({ user }) {
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [updatingProfileData, setUpdatingProfileData] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [phone, setPhone] = useState(user?.phone || Number("000"));
 
   const router = useRouter();
   const token = Cookies.get("token");
@@ -52,6 +54,26 @@ export default function SettingsPage({ user }) {
     }
   };
 
+  const handleUpdateData = async () => {
+    setUpdatingProfileData(true);
+
+    try {
+      const { data, status } = await updateDataApi({ phone_number: phone }, token);
+
+      if (status !== 200)
+        return toast(<Notification message="An error occurred, please retry." type="danger" />);
+
+      user.phone = phone;
+      toast(<Notification message={data.message} type="success" />);
+
+      setUpdatingProfileData(false);
+    } catch (error) {
+      toast(<Notification message="An error occurred, please retry." type="danger" />);
+    } finally {
+      setUpdatingProfileData(false);
+    }
+  };
+
   //route protection
   useEffect(() => {
     !validToken() ? router.push("/") : setLoading(false);
@@ -64,27 +86,7 @@ export default function SettingsPage({ user }) {
         <div className="flex flex-col gap-10 pb-5 flex-1 h-full">
           <div className="bg-light flex flex-col md:flex-row gap-8 md:gap-14 lg:mt-4 py-5 lg:py-9 lg:px-2 rounded-xl items-center">
             <div className="relative h-56 w-56 md:h-40 md:w-40">
-              <Image
-                // src={profilePicBase64 ? profilePicBase64 : profileImage}
-                src={avatar}
-                layout="fill"
-                className="rounded-full"
-                alt="profile picture"
-              />
-
-              <label
-                className="absolute bg-alerts-info rounded-full p-2 right-2 md:right-0 bottom-2 md:bottom-0 h-12 w-12 md:h-11 md:w-11 cursor-pointer"
-                htmlFor="imageUpload"
-              >
-                <input
-                  type="file"
-                  className="hidden"
-                  id="imageUpload"
-                  accept=".png, .jpg, .jpeg"
-                  // onChange={handleImageChange}
-                />
-                <Camera />
-              </label>
+              <Image src={avatar} layout="fill" className="rounded-full" alt="profile picture" />
             </div>
 
             <div className="grid w-full lg:grid-cols-2 md:p-3 flex-1 gap-8 gap-y-4">
@@ -109,9 +111,9 @@ export default function SettingsPage({ user }) {
               />
               <Input
                 label="Phone Number"
-                type="number"
-                disabled
-                value={+user?.phone || Number("000")}
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 labelBackground="bg-neutral-900"
               />
             </div>
@@ -166,7 +168,13 @@ export default function SettingsPage({ user }) {
                 onClick={() => router.back()}
                 type="SECONDARY"
               />
-              <Button className="w-full md:w-auto" name="Save Changes" onClick={() => {}} />
+              <Button
+                className="w-full md:w-auto"
+                disabled={user?.phone === phone || updatingProfileData}
+                loading={updatingProfileData}
+                name="Save Changes"
+                onClick={handleUpdateData}
+              />
             </div>
           </div>
         </div>
@@ -210,7 +218,12 @@ export default function SettingsPage({ user }) {
             <Button
               className="hover:!text-shade-light !text-primary-600"
               name="Cancel"
-              onClick={() => setOpenModal(false)}
+              onClick={() => {
+                setOpenModal(false);
+                setCurrentPassword("");
+                setNewPassword("");
+                setConfirmNewPassword("");
+              }}
               type="SECONDARY"
             />
             <Button

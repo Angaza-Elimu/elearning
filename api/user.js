@@ -9,4 +9,15 @@ const user = (token) =>
     },
   });
 
-export { user };
+const updateData = ({ phone_number }, token) =>
+  api.post(
+    "/updateData",
+    { phone_number },
+    {
+      headers: {
+        Authorization: authorization(token),
+      },
+    }
+  );
+
+export { user, updateData };

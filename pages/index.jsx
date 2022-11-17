@@ -181,7 +181,7 @@ export default function LoginPage() {
               />
 
               <p
-                className="text-sm text-primary-700 mt-1 md:-mt-3 cursor-pointer hover:underline md:font-medium"
+                className="text-sm text-primary-700 mt-1 md:-mt-3 cursor-pointer hover:underline md:font-medium max-w-fit"
                 onClick={handleOpenPasswordResetModal}
               >
                 Forgot Password?
