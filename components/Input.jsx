@@ -9,6 +9,7 @@ export default function Input({
   type = "text",
   onChange,
   placeholder,
+  labelBackground,
   ...others
 }) {
   const [visible, setVisible] = useState(false);
@@ -29,9 +30,11 @@ export default function Input({
   }, [type]);
 
   return (
-    <div className="border border-neutral-700 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-3">
+    <div className="border border-neutral-700 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-0.5 focus-within:bg-shade-light">
       <input
-        className="block w-full appearance-none focus:outline-none bg-transparent p-2 md:p-3 text-base placeholder-shown:text-right focus:text-left"
+        className={`block w-full appearance-none focus:outline-none bg-transparent p-2 md:p-3 text-lg md:text-base placeholder-shown:text-right focus:text-left ${
+          others.disabled ? "cursor-not-allowed " : ""
+        }`}
         id={label.toLowerCase().trim().split(" ").join("")}
         name={label.toLowerCase().trim().split(" ").join("")}
         onChange={onChange}
@@ -49,7 +52,9 @@ export default function Input({
       />
       <label
         htmlFor={label.toLowerCase().trim().split(" ").join("")}
-        className="absolute scale-90 top-2.5 left-3 duration-300 origin-0 bg-[#FBFBFB] md:text-lg text-neutral-500 font-medium md:px-1 select-none"
+        className={`absolute scale-90 top-2.5 left-3 duration-300 origin-0 md:text-lg text-neutral-500 font-medium md:px-1 select-none ${
+          labelBackground ? labelBackground : "bg-[#FBFBFB]"
+        }`}
       >
         {label}
       </label>

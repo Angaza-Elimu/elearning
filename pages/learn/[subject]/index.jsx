@@ -3,15 +3,23 @@ import { useRouter } from "next/router";
 import { getPrimaryTopics, getTopics } from "../../../api/topics";
 import Cookies from "js-cookie";
 import { Breadcomb, Header, Layout, LearnCard } from "../../../components";
+import { useEffect, useState } from "react";
+import { validToken } from "../../../api/auth";
 
 export default function PickASubjectPage({ topics }) {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
+  const [loading, setLoading] = useState(true);
   const setTopic = (id, name) => {
     Cookies.set("topic_id", id);
     Cookies.set("topic_name", name);
     Cookies.set("subject_name", query.subject);
   };
-  return (
+
+  useEffect(() => {
+    !validToken() ? push("/") : setLoading(false);
+  }, []);
+
+  return loading ? null : (
     <Layout title={`Pick a ${query.subject} Topic`}>
       <div>
         <Breadcomb />

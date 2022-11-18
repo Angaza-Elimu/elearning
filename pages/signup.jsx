@@ -40,7 +40,7 @@ export default function SignUpPage() {
       username,
       password,
       phone,
-      email,
+      // email,
       user_type: "student",
       learning_system,
       class: classId,
@@ -170,11 +170,11 @@ export default function SignUpPage() {
                   required
                 />
 
-                <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
+                <div className="border border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-0.5 pr-1.5 focus-within:bg-shade-light">
                   <select
                     name="learning_system"
                     id="select_level"
-                    className="block w-full focus:outline-none bg-transparent p-2 md:p-3 text-base text-shade-dark cursor-pointer"
+                    className="block w-full focus:outline-none bg-transparent p-3 text-base text-shade-dark cursor-pointer"
                     value={learning_system}
                     onChange={(e) => setLearningSystem(e.target.value)}
                   >
@@ -194,11 +194,11 @@ export default function SignUpPage() {
                   </label>
                 </div>
 
-                <div className="border-2 border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-3">
+                <div className="border border-neutral-800 rounded-md focus-within:border-primary-700 relative outline-none my-1.5 md:my-0.5 pr-1.5 focus-within:bg-shade-light">
                   <select
                     name="class"
                     id="class"
-                    className="block w-full focus:outline-none bg-transparent p-2 md:p-3 text-base text-shade-dark cursor-pointer"
+                    className="block w-full focus:outline-none bg-transparent p-3 text-base text-shade-dark cursor-pointer"
                     value={classId}
                     onChange={(e) => setClassId(e.target.value)}
                   >
@@ -242,14 +242,14 @@ export default function SignUpPage() {
               </div>
             ) : (
               <div className="flex flex-col gap-1 md:gap-4">
-                <Input
+                {/* <Input
                   label="Email"
                   name="email"
                   type="email"
                   placeholder="example@example.com"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                />
+                /> */}
                 <Input
                   label="Phone Number"
                   name="phone_number"
@@ -288,10 +288,8 @@ export default function SignUpPage() {
                     onClick={handleCreateAccount}
                     loading={submitting}
                     disabled={
-                      email.length === 0 ||
-                      phone.length === 0 ||
-                      password !== confirmPassword ||
-                      submitting
+                      // email.length === 0 ||
+                      phone.length === 0 || password !== confirmPassword || submitting
                     }
                   />
                   <Button

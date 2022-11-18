@@ -30,13 +30,11 @@ export default function WelcomePage({ classes: _classes }) {
           </div>
 
           <div className="flex flex-col px-5 py-5 pb-8 lg:w-2/3 h-2/3">
-            <div className="text-center mt-24 lg:mt-0">
-              <h3 className="font-semibold lg:font-bold text-3xl">
+            <div className="text-center mt-24 lg:mt-0 pb-5">
+              <h3 className="font-medium lg:font-semibold text-3xl">
                 Welcome {profile.firstname[0].toUpperCase() + profile.firstname.substring(1)}
               </h3>
-              <p className="text-lg w-full lg:font-semibold lg:text-xl">
-                Choose a grade to start learning with us
-              </p>
+              <p className="text-lg w-full lg:text-xl">Choose a grade to start learning with us</p>
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 mt-10 gap-5 lg:gap-10">
@@ -53,7 +51,6 @@ export default function WelcomePage({ classes: _classes }) {
 
 export const getServerSideProps = async ({ req: { cookies } }) => {
   let { data: classes, status } = await getClassesApi(cookies.token);
-
   if (status !== 200) classes = [];
 
   return {

@@ -2,7 +2,9 @@ import AnswerRightTick from "./AnswerRightTick";
 import AnswerWrongTick from "./AnswerWrongTick";
 import ArrowLeft from "./ArrowLeft";
 import AskATeacher from "./AskATeacher";
+import avatar from "./avatar.svg";
 import BubbleVector from "./BubbleVector";
+import Camera from "./Camera";
 import ChevronLeft from "./ChevronLeft";
 import Close from "./Close";
 import Dashboard from "./Dashboard";
@@ -23,7 +25,9 @@ export {
   AnswerWrongTick,
   ArrowLeft,
   AskATeacher,
+  avatar,
   BubbleVector,
+  Camera,
   ChevronLeft,
   Close,
   Dashboard,
