@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { setScore } from "../../../store/features/quizSlice";
 import { v4 as uuidv4 } from "uuid";
+import BreadcombLearn from "../../../components/BreadcombLearn";
 
 export default function SupplementaryQuizPage({ questions, token, subtopic_id, totalQuestion, quiz_id, subject_id }) {
     const profile = useSelector((state) => state.profile.profile)
@@ -75,7 +76,7 @@ export default function SupplementaryQuizPage({ questions, token, subtopic_id, t
     return (
         <Layout title={`Quiz`}>
         <>
-            <Breadcomb />
+            <BreadcombLearn />
 
             {questions.length > 0 && !isQuizFinished ? (
             <QuizCard

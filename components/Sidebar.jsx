@@ -69,6 +69,14 @@ export default function Sidebar({ onHide }) {
     })();
   }, []);
 
+  const handleShowGrades = () => {
+    if(showGrades) {
+      setShowGrades(false)
+    } else {
+      setShowGrades(true)
+    }
+  }
+
   return (
     <>
       <nav className="lg:flex flex-col h-full select-none lg:relative hidden absolute top-10 right-0 lg:top-0 lg:right-0">
@@ -102,7 +110,7 @@ export default function Sidebar({ onHide }) {
           <Button
             className="w-full p-2"
             name={selectedGrade?.class_name}
-            onClick={showGrades ? () => setShowGrades(false) : () => setShowGrades(true)}
+            onClick={handleShowGrades}
             Component={() => (
               <ChevronLeft
                 className={`stroke-shade-light h-6 w-6 stroke-2 transition-all duration-300 ${
@@ -121,8 +129,9 @@ export default function Sidebar({ onHide }) {
                     }`}
                     onClick={() => {
                       setShowGrades(false);
+                      router.push("/learn")
                       dispatch(setGrade({ class_name, id }));
-                      router.reload();
+                      // router.reload();
                     }}
                     key={id}
                   >

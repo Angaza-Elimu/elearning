@@ -21,7 +21,7 @@ export default function Page40() {
     <Layout>
       <Breadcomb />
 
-      <Header text={`You are progressing on well ${profile?.firstname}`} />
+      <Header text={`You can do better ${profile.firstname}`} />
 
       <div className="p-6 py-8 rounded-lg bg-shade-light w-full flex flex-col items-center gap-10 flex-1 mb-10">
         <h2 className="font-bold text-center text-2xl my-6">Quiz outcome</h2>

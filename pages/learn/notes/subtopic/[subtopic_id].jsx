@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { Breadcomb, Button, Header, Layout } from "../../../../components";
 import { getSubtopicNotes } from "../../../../api/note";
-import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { validToken } from "../../../../api/auth";
+import BreadcombLearn from "../../../../components/BreadcombLearn";
 
 export default function NotePage({ note, topic_id, subtopic_id }) {
   const [loading, setLoading] = useState(true);
-
+  const subject_name = Cookies.get("subject_name");
+  const topic_name = Cookies.get("topic_name");
+  let path = ['notes'];
   //route protection
   useEffect(() => {
     !validToken() ? router.push("/") : setLoading(false);
@@ -17,7 +20,7 @@ export default function NotePage({ note, topic_id, subtopic_id }) {
 
   return (
     <Layout>
-      <Breadcomb />
+      <BreadcombLearn links={path}/>
       <Header text="" />
 
       <div className="absolute top-24 md:top-10 md:right-36">
@@ -27,9 +30,14 @@ export default function NotePage({ note, topic_id, subtopic_id }) {
           </a>
         </Link>
       </div>
-      <div className="bg-shade-light p-5 rounded-lg flex flex-col max-h-[calc(80vh)] max-w-6xl prose-lg ">
-        <div dangerouslySetInnerHTML={{ __html: note }} className="overflow-auto" />
-      </div>
+      {
+        note && (
+          <div className="bg-shade-light p-5 rounded-lg flex flex-col max-h-[calc(80vh)] max-w-6xl prose-lg ">
+            <div dangerouslySetInnerHTML={{ __html: note }} className="overflow-auto" />
+          </div>
+
+        )
+      }
     </Layout>
   );
 }
@@ -50,7 +58,7 @@ export const getServerSideProps = async ({ req: { cookies }, params }) => {
   if (status !== 200) note = null;
   return {
     props: {
-      note: note[0].notes,
+      note: note.length > 0  ? note[0].notes : null,
       topic_id: cookies.topic_id,
       subtopic_id: params.subtopic_id,
     },
