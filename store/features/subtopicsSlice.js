@@ -7,11 +7,11 @@ export const subtopicSlice = createSlice({
   },
   reducers: {
     setSubtopics: (state, action) => {
+      console.log('===========>state', action.payload);
       state.subtopics = action.payload;
     },
   },
 });
-
 export const { setSubtopics } = subtopicSlice.actions;
 
 export default subtopicSlice.reducer;

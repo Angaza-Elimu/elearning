@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { setScore } from "../../../store/features/quizSlice";
 import SubtopicQuizCard from "../../../components/SubtopicQuizCard";
+import BreadcombLearn from "../../../components/BreadcombLearn";
 
 export default function QuizPage({ initial_question }) {
   const router = useRouter();
@@ -78,11 +79,11 @@ export default function QuizPage({ initial_question }) {
   }, []);
 
   if (loading) return null;
-
+  let path = ['quiz'];
   return (
     <Layout title={`Quiz`}>
       <>
-        <Breadcomb />
+        <BreadcombLearn links={path}/>
 
         {question && question.id ? (
           <SubtopicQuizCard

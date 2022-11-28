@@ -6,6 +6,7 @@ import { getSubtopics } from "../../../api/subtopics";
 import { useEffect, useState } from "react";
 import { validToken } from "../../../api/auth";
 import { useRouter } from "next/router";
+import BreadcombLearn from "../../../components/BreadcombLearn";
 
 export default function PickASubtopicPage({ subtopics }) {
   const [loading, setLoading] = useState(true);
@@ -18,7 +19,7 @@ export default function PickASubtopicPage({ subtopics }) {
   return loading ? null : (
     <Layout title={`Pick a Subtopic`}>
       <div>
-        <Breadcomb />
+        <BreadcombLearn />
 
         <Header text={`Nice! Now choose a subtopic you love...`} className="mt-3" />
 

@@ -9,15 +9,21 @@ import { useEffect, useState } from "react";
 import { getDiagnosticsRecommendationApi } from "../api/recommendations";
 import { setRecommendation } from "../store/features/recommendationSlice";
 import Cookies from "js-cookie";
+import QuizPage from "../pages/learn/[subject]/[topic]";
+import HighLevelNavigation from "./HighLevelNavigation";
 
-export default function Recommendation({ payload }){
+export default function Recommendation({ payload, topic_id, level }){
+    console.log('======>',level);
     const [recommendedTopics, setRecommendedTopics] = useState(null)
+    const [diagnostic_questions, setDiagnostic_questions] = useState(null)
+
     const dispatch = useDispatch();
 
     useEffect(() => {
       getDiagnosticsRecommendationApi(payload)
       .then(res => {
         const data = res.data.subtopics_to_read;
+        setDiagnostic_questions(res.data.questions);
         const result = data.reduce((acc, curr) => {
           if(!acc[curr.id]) {
             acc[curr.id] = curr
@@ -30,6 +36,15 @@ export default function Recommendation({ payload }){
       })
       .catch((e) => console.log(e))
     }, []);
+
+    if(level === 'high_level' && (!recommendedTopics || recommendedTopics.length < 1)) {
+      return <HighLevelNavigation />
+    }
+
+    if((!recommendedTopics || recommendedTopics.length < 1) && diagnostic_questions && diagnostic_questions.length > 0) {
+      return <QuizPage diagnostic_questions = {diagnostic_questions} level="high_level" totalQuestion={diagnostic_questions.length} topic_id={topic_id}/>
+    }
+
 
     return (
       <Layout title="Quiz Finished">
@@ -45,7 +60,7 @@ export default function Recommendation({ payload }){
               <div className="flex-1 justify-self-start">
                 <h2 className="font-bold text-2xl">You're doing great.</h2>
                 <p className="text-center text-lg mt-2 w-2/3 mx-auto">
-                  Below are three subtopics we recommend you to start learning.
+                  Below are the subtopics we recommend you to start learning.
                 </p>
               </div>
             </div>

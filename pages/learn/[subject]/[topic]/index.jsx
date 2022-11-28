@@ -6,12 +6,13 @@ import { Breadcomb, Button, Layout, QuizCard } from "../../../../components";
 import { getDiagnosticsQuestionsApi } from "../../../../api/diagnostics";
 import { validToken } from "../../../../api/auth";
 import Recommendation from "../../../../components/Recommendation";
-import Cookies from "js-cookie";
+import _ from "lodash";
 import { useDispatch } from "react-redux";
 import { getSubtopics } from "../../../../api/subtopics";
 import { setSubtopics } from "../../../../store/features/subtopicsSlice";
+import BreadcombLearn from "../../../../components/BreadcombLearn";
 
-export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion, subtopics }) {
+export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion, subtopics, level="initial" }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isQuizStarted, setIsQuizStarted] = useState(false);
@@ -22,6 +23,8 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
   const [payload, setPayload] = useState(null);
   const [answers, setAnswers] = useState([]);
   const options = { 1: "option_a", 2: "option_b", 3: "option_c", 4: "option_d" };
+
+  let quizLevel = level;
 
   const handleNext = (selectedAnswer) => {
     const isCorrect =
@@ -43,6 +46,9 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
   };
 
   const handleFinish = () => {
+    if(quizLevel === 'high_level') {
+      quizLevel = 'completed_diagnostics';
+    }
     const payload = {
       topic_id,
       total_score: totalScore,
@@ -54,6 +60,8 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
 
   useEffect(() => {
     !validToken() ? router.push("/") : setLoading(false);
+    setAnswers([])
+    setCurrentQuestion(0)
   }, []);
 
   useEffect(() => {
@@ -64,66 +72,74 @@ export default function QuizPage({ diagnostic_questions, topic_id, totalQuestion
 
   const Welcome = () => {
     if (totalQuestion < 1) router.push(`/learn/topics/${topic_id}`);
+      const message = (level === 'initial') ? `Let's evaluate your topic mastery, so that we can provide you with the best materials for learning`
+      : (level === 'high_level') ? `Let's take the evaluation one step futher,  so that we can provide you with the best materials for learning`
+      : "You are a Genius!!!"
 
     return (
-      <div className="max-w-7xl mx-auto my-auto flex flex-1 h-full">
-        <div className="flex flex-col flex-wrap flex-1 justify-around">
-          <div className="relative h-48">
-            <Image src={teamSuccessImage} alt="" layout="fill" />
-          </div>
+      <>
+        <BreadcombLearn />
+        <div className="max-w-7xl mx-auto my-auto flex flex-1 h-full">
+          <div className="flex flex-col flex-wrap flex-1 justify-around">
+            <div className="relative h-48">
+              <Image src={teamSuccessImage} alt="" layout="fill" />
+            </div>
 
-          <div className="flex flex-col w-full md:w-1/2 mx-auto text-center">
-            <h2 className="font-bold text-2xl">Wonderful.</h2>
-            <p className="text-left text-lg mt-2">
-              Let's evaluate your topic mastery, so that we can provide you with the best materials
-              for learning
-            </p>
+            <div className="flex flex-col w-full md:w-1/2 mx-auto text-center">
+              <div>
+                <h2 className="font-bold text-2xl">Wonderful.</h2>
+                <p className="text-left text-lg mt-2">{message}</p>
+              </div>
 
-            <Button
-              className="md:w-1/3 mt-5 mx-auto"
-              name="Start Quiz"
-              disabled={diagnostic_questions && diagnostic_questions.length < 1}
-              onClick={setIsQuizStarted}
-            />
+              <Button
+                className="md:w-1/3 mt-5 mx-auto"
+                name="Start Quiz"
+                disabled={diagnostic_questions && diagnostic_questions.length < 1}
+                onClick={setIsQuizStarted}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
 
-  if (isQuizFinished) return <Recommendation payload={payload} />;
+  if (isQuizFinished ) return <Recommendation payload={payload} topic_id={topic_id} level = {quizLevel}/>;
 
   return (
     <Layout title={`Quiz`}>
       <>
-        <Breadcomb />
-
+      
         {diagnostic_questions && diagnostic_questions.length > 0 && isQuizStarted && !isQuizFinished ? (
-          <QuizCard
-            answers={[
-              `${diagnostic_questions[currentQuestion].option_a}`,
-              `${diagnostic_questions[currentQuestion].option_b}`,
-              `${diagnostic_questions[currentQuestion].option_c}`,
-              `${diagnostic_questions[currentQuestion].option_d}`,
-            ]}
-            correctAnswer={`${
-              diagnostic_questions[currentQuestion][
-                options[diagnostic_questions[currentQuestion].answer]
-              ]
-            }`}
-            currentQuestion={currentQuestion}
-            id={currentQuestion}
-            lastQuestion={currentQuestion === totalQuestion - 1}
-            onNextQuestion={handleNext}
-            onQuizFinished={handleFinish}
-            question={diagnostic_questions[currentQuestion].question}
-            totalQuestion={totalQuestion}
-            additional_notes={diagnostic_questions[currentQuestion].additional_notes}
-            answer_no={diagnostic_questions[currentQuestion].answer}
-            type="recommend"
-          />
+          <>
+           <Breadcomb />
+            <QuizCard
+              answers={[
+                `${diagnostic_questions[currentQuestion].option_a}`,
+                `${diagnostic_questions[currentQuestion].option_b}`,
+                `${diagnostic_questions[currentQuestion].option_c}`,
+                `${diagnostic_questions[currentQuestion].option_d}`,
+              ]}
+              correctAnswer={`${
+                diagnostic_questions[currentQuestion][
+                  options[diagnostic_questions[currentQuestion].answer]
+                ]
+              }`}
+              currentQuestion={currentQuestion}
+              id={currentQuestion}
+              lastQuestion={currentQuestion === totalQuestion - 1}
+              onNextQuestion={handleNext}
+              onQuizFinished={handleFinish}
+              question={diagnostic_questions[currentQuestion].question}
+              totalQuestion={totalQuestion}
+              additional_notes={diagnostic_questions[currentQuestion].additional_notes}
+              answer_no={diagnostic_questions[currentQuestion].answer}
+              type="recommend"
+            />
+          </>
         ) : (
-          Welcome()
+           
+            Welcome()
         )}
       </>
     </Layout>
@@ -148,12 +164,13 @@ export const getServerSideProps = async ({ req: { cookies }, params }) => {
   ]);
 
   const [result1, result2] = await Promise.all([res1.data, res2.data]);
+  const questions =  result2 ? _.shuffle(result2.questions).slice(0, 10) : [];
   return {
     props: {
-      diagnostic_questions: result2 ? result2.questions : [],
+      diagnostic_questions: questions,
       topic_id: cookies.topic_id,
       subtopics: result1,
-      totalQuestion: result2.questions.length,
+      totalQuestion: questions.length,
     },
   };
 };

@@ -43,28 +43,30 @@ export default function Breadcomb() {
         for (let j = 0; j <= i; j++) {
           href = href + paths[j] + "/";
         }
-        const hasNumber = /\d/;
-        if (hasNumber.test(p)) {
-          // console.log("here");
-          const name =
-            topic_name[0].toUpperCase() +
-            topic_name.substring(1).replace(/%3A/g, ": ").replace(/_/g, " ");
-          const subject =
-            subject_name[0].toUpperCase() +
-            subject_name.substring(1).replace(/%3A/g, ": ").replace(/_/g, " ");
-          return (
-            <Link href={`/learn/${subject}`} passHref key={i}>
-              <a>
-                <div className="flex ml-1 first:ml-0 items-center cursor-pointer hover:text-primary-600">
-                  <p className={`${paths.length - 1 === i ? "text-primary-600" : ""}`}>{name} </p>
-                  <div>
-                    <ChevronLeft className="stroke-current rotate-180 stroke-[1.5] h-6" />
-                  </div>
-                </div>
-              </a>
-            </Link>
-          );
-        } else {
+        // const hasNumber = /\d/;
+        // if (hasNumber.test(p)) {
+        //   console.log("here");
+        //   const name =
+        //     topic_name[0].toUpperCase() +
+        //     topic_name.substring(1).replace(/%3A/g, ": ").replace(/_/g, " ");
+        //   const subject =
+        //     subject_name[0].toUpperCase() +
+        //     subject_name.substring(1).replace(/%3A/g, ": ").replace(/_/g, " ");
+        //     console.log('=======>name',name);
+        //     console.log('===========>subject',subject);
+        //   return (
+        //     <Link href={`/learn/${subject}`} passHref key={i}>
+        //       <a>
+        //         <div className="flex ml-1 first:ml-0 items-center cursor-pointer hover:text-primary-600">
+        //           <p className={`${paths.length - 1 === i ? "text-primary-600" : ""}`}>{name} </p>
+        //           <div>
+        //             <ChevronLeft className="stroke-current rotate-180 stroke-[1.5] h-6" />
+        //           </div>
+        //         </div>
+        //       </a>
+        //     </Link>
+        //   );
+        // } else {
           return (
             <Link href={href} passHref key={i}>
               <a>
@@ -79,7 +81,7 @@ export default function Breadcomb() {
               </a>
             </Link>
           );
-        }
+        // }
       })}
     </div>
   );
